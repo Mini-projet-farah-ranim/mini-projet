@@ -65,7 +65,7 @@ switch ($user['type']) {
             }  
     break;
   case 'chef':
-    header('Location: accueil_chef.php?cin=' . $cin);
+    header('Location: accueil_chef.php?cin=' . $cin. '&nom=' . $user['nom']); 
     break;
   case 'admin':
     header('Location: accueil_admin.php?cin=' . $cin);
