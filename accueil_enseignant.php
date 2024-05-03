@@ -487,6 +487,10 @@ body .twitter svg {
         <input type="password" name ="password" placeholder=" " id="mdpInput">
         <label>Entrer Votre Mot de passe:</label>
     </div>
+    <div class="input photo">
+        <input type="file" name ="photo" >
+        <label>Entrer Votre Photo:</label>
+    </div>
     <button type="submit" disabled id="submitButton">
         <svg viewBox="0 0 16 16">
             <circle stroke-opacity=".1" cx="8" cy="8" r="6"></circle>

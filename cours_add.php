@@ -94,7 +94,7 @@ $user = $stmt->fetch();
             </div>
             <li class="menu-item">
               <a
-              href="news.php?cin=<?php echo $_GET['cin']; ?>"                
+              href="news_ens.php?cin=<?php echo $_GET['cin']; ?>"                
                 class="menu-link">
                 <i class="menu-icon tf-icons bx bx-spreadsheet"></i>
                 <div data-i18n="Calendar">Actualités</div>
@@ -119,7 +119,7 @@ $user = $stmt->fetch();
             </li>
             <li class="menu-item active">
               <a
-                href="cours.php?cin=<?php echo $_GET['cin']; ?>" 
+                href="cours_add.php?cin=<?php echo $_GET['cin']; ?>" 
                 class="menu-link">
                 <i class="menu-icon tf-icons bx bx-book"></i>
                 <div data-i18n="Calendar">Cours</div>
@@ -127,7 +127,7 @@ $user = $stmt->fetch();
             </li>
             <li class="menu-item">
               <a
-                href="note.php?cin=<?php echo $_GET['cin']; ?>" 
+                href="note_ens.php?cin=<?php echo $_GET['cin']; ?>" 
                
                 class="menu-link">
                 <i class="menu-icon tf-icons bx bx-file-blank"></i>
@@ -150,14 +150,6 @@ $user = $stmt->fetch();
                 class="menu-link">
                 <i class="menu-icon tf-icons bx bx-calendar"></i>
                 <div data-i18n="Calendar">Evénements</div>
-              </a>
-            </li>
-            <li class="menu-item">
-              <a
-                href="reclamation.php?cin=<?php echo $_GET['cin']; ?>" 
-                class="menu-link">
-                <i class="menu-icon tf-icons bx bx-edit"></i>
-                <div data-i18n="Calendar">Réclamations</div>
               </a>
             </li>
             <!-- Pages -->
