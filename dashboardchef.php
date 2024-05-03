@@ -377,11 +377,15 @@ $user = $stmt->fetch();
           $reclamations = $stmt->fetchAll(PDO::FETCH_ASSOC);
           ?>
           <?php foreach ($reclamations as $reclamation): ?>
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-              <?= $reclamation['sujet'] ?>
-              <span class="badge bg-primary rounded-pill" style="margin-right: 0px;"><?= $reclamation['date'] ?></span>
-              <button type="button" class="btn btn-sm btn-outline-primary" onclick="openReclamation(<?= $reclamation['id'] ?>)">More</button>
-            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center" style="display: flex; align-items: center;">
+        <div style="flex: 1;">
+            <?= $reclamation['sujet'] ?>
+        </div>
+        <span class="badge bg-primary rounded-pill" style="margin-right: 5px;">
+            <?= $reclamation['date'] ?>
+        </span>
+        <button type="button" class="btn btn-sm btn-outline-primary" onclick="openReclamation(<?= $reclamation['id'] ?>)">More</button>
+    </li>
           <?php endforeach; ?>
         </ul>
       </div>
