@@ -36,9 +36,9 @@ switch ($user['type']) {
       
           if (!$etudiant) {
             // Insérer l'étudiant
-            $sql = "INSERT INTO etudiant (cin, nom,prenom, filiere, groupe) VALUES (:cin, :nom, :prenom,:filiere, :groupe)";
+            $sql = "INSERT INTO etudiant (cin,inscription, nom,prenom, filiere, groupe) VALUES (:cin,:inscription, :nom, :prenom,:filiere, :groupe)";
             $stmt = $db->prepare($sql);
-            $stmt->execute(['cin' => $user['cin'], 'nom' => $user['nom'], 'prenom' => $user['prenom'], 'filiere' => $user['filiere'], 'groupe' => $user['groupe']]);
+            $stmt->execute(['cin' => $user['cin'],'inscription' => $user['inscription'], 'nom' => $user['nom'], 'prenom' => $user['prenom'], 'filiere' => $user['filiere'], 'groupe' => $user['groupe']]);
             header('Location: accueil_etudiant.php?cin=' . $cin. '&nom=' . $user['nom']);  
             } else {
               // Afficher un message d'erreur
