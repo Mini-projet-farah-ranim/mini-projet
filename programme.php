@@ -60,6 +60,13 @@ $user = $stmt->fetch();
     <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
     <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
     <script src="assets/js/config.js"></script>
+    <script> applyFilter() {
+    var selectedFiliere = document.getElementById('filiere').value;
+    console.log("Selected filiere:", selectedFiliere); // Debugging output
+    document.getElementById('filter_filiere').value = selectedFiliere;
+    document.getElementById('filterForm').submit();
+}
+</script>
   </head>
 
   <body>
@@ -366,8 +373,10 @@ $user = $stmt->fetch();
 
     <h1>Programme d'études:</h1>
 
-    <!-- Button to filter by filiere -->
-    <form action="" method="GET">
+     <!-- Button to filter by filiere -->
+     <form action="" method="GET">
+     <input type="hidden" name="cin" value="<?php echo $_GET['cin']; ?>">
+    <input type="hidden" name="nom" value="<?php echo $_GET['nom']; ?>">
         <label for="filiere">Filter by Filiere:</label>
         <select name="filiere" id="filiere">
             <option value="">All</option>
@@ -383,7 +392,8 @@ $user = $stmt->fetch();
 
             // Output options for each filiere
             foreach ($filiereData as $filiere) {
-                echo "<option value=\"" . htmlspecialchars($filiere['filiere']) . "\">" . htmlspecialchars($filiere['filiere']) . "</option>";
+                $selected = ($_GET['filiere'] == $filiere['filiere']) ? 'selected' : '';
+                echo "<option value=\"" . htmlspecialchars($filiere['filiere']) . "\" $selected>" . htmlspecialchars($filiere['filiere']) . "</option>";
             }
             ?>
         </select>
@@ -435,7 +445,7 @@ $user = $stmt->fetch();
             ?>
         </tbody>
     </table>
-
+   
 
       </div>
     </div>
