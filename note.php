@@ -148,7 +148,14 @@ $user = $stmt->fetch();
               </a>
             </li>
             <!-- Pages -->
-            
+            <li class="menu-item">
+              <a
+                href="reclamation.php?cin=<?php echo $_GET['cin']; ?>" 
+                class="menu-link">
+                <i class="menu-icon tf-icons bx bx-edit"></i>
+                <div data-i18n="Calendar">Réclamations</div>
+              </a>
+            </li>
             <li class="menu-item">
               <a
                 href="home.php"

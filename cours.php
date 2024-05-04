@@ -100,7 +100,7 @@ $user = $stmt->fetch();
                 <div data-i18n="Calendar">Actualités</div>
               </a>
             </li>
-            <li class="menu-item active">
+            <li class="menu-item ">
               <a
                 href="emploi.php?cin=<?php echo $_GET['cin']; ?>" 
                 class="menu-link">
@@ -117,7 +117,7 @@ $user = $stmt->fetch();
                 <div data-i18n="Calendar">Liste des groupes</div>
               </a>
             </li>
-            <li class="menu-item">
+            <li class="menu-item active">
               <a
                 href="cours.php?cin=<?php echo $_GET['cin']; ?>" 
                 class="menu-link">
@@ -164,7 +164,7 @@ $user = $stmt->fetch();
             
             <li class="menu-item">
               <a
-                href="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/html/vertical-menu-template/app-calendar.html"
+                href="home.php"
   
                 class="menu-link">
                 <i class="menu-icon tf-icons bx bx-log-out"></i>
