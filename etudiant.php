@@ -1,16 +1,16 @@
 <?php
-$cin = $_GET['cin'];
+$cin = "111";
 
 // Connexion à la base de données
-$db = new PDO('mysql:host=localhost;dbname=gestion_cursus', 'root', '');
+//$db = new PDO('mysql:host=localhost;dbname=gestion_cursus', 'root', '');
 
 // Requête pour récupérer l'utilisateur avec le CIN et le mot de passe haché
-$sql = "SELECT * FROM etudiant WHERE cin = :cin";
-$stmt = $db->prepare($sql);
-$stmt->execute(['cin' => $cin]);
+//$sql = "SELECT * FROM etudiant WHERE cin = :cin";
+//$stmt = $db->prepare($sql);
+//$stmt->execute(['cin' => $cin]);
 
 // Vérifier si l'utilisateur existe
-$user = $stmt->fetch();
+//$user = $stmt->fetch();
 
 ?>
 <!DOCTYPE html>
@@ -34,7 +34,14 @@ $user = $stmt->fetch();
 
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="logo.png" />
-
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@48,400,1,0"
+    />
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -54,7 +61,181 @@ $user = $stmt->fetch();
     <link rel="stylesheet" href="assets/vendor/libs/apex-charts/apex-charts.css" />
 
     <!-- Page CSS -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
 
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+body {
+  background-color: #bdc3c7;
+  font-family: 'Poppins', sans-serif;
+}
+.chatbot__button {
+  position: fixed;
+  bottom: 35px;
+  right: 40px;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #227ebb;
+  color: #f3f7f8;
+  border: none;
+  border-radius: 50%;
+  outline: none;
+  cursor: pointer;
+}
+.chatbot__button span {
+  position: absolute;
+}
+.show-chatbot .chatbot__button span:first-child,
+.chatbot__button span:last-child {
+  opacity: 0;
+}
+.show-chatbot .chatbot__button span:last-child {
+  opacity: 1;
+}
+.chatbot {
+  position: fixed;
+  bottom: 100px;
+  right: 40px;
+  width: 350px;
+  background-color: #f3f7f8;
+  border-radius: 15px;
+  box-shadow: 0 0 128px 0 rgba(0, 0, 0, 0.1) 0 32px 64px -48px rgba(0, 0, 0, 0.5);
+  transform: scale(0.5);
+  transition: transform 0.3s ease;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+}
+.show-chatbot .chatbot {
+  opacity: 1;
+  pointer-events: auto;
+  transform: scale(1);
+}
+.chatbot__header {
+  position: relative;
+  background-color: #227ebb;
+  text-align: center;
+  padding: 16px 0;
+}
+.chatbot__header span {
+  display: none;
+  position: absolute;
+  top: 50%;
+  right: 20px;
+  color: #202020;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+.chatbox__title {
+  font-size: 1.4rem;
+  color: #f3f7f8;
+}
+.chatbot__box {
+  height: 350px;
+  overflow-y: auto;
+  padding: 30px 20px 100px;
+  
+}
+.chatbot__chat {
+  display: flex;
+}
+.chatbot__chat p {
+  max-width: 75%;
+  font-size: 0.95rem;
+  white-space: pre-wrap;
+  color: #202020;
+  background-color: #019ef9;
+  border-radius: 10px 10px 0 10px;
+  padding: 12px 16px;
+}
+.chatbot__chat p.error {
+  color: #721c24;
+  background: #f8d7da;
+}
+.incoming p {
+  color: #202020;
+  background: #bdc3c7;
+  border-radius: 10px 10px 10px 0;
+}
+.incoming span {
+  width: 32px;
+  height: 32px;
+  line-height: 32px;
+  color: #f3f7f8;
+  background-color: #227ebb;
+  border-radius: 4px;
+  text-align: center;
+  align-self: flex-end;
+  margin: 0 10px 7px 0;
+}
+.outgoing {
+  justify-content: flex-end;
+  margin: 20px 0;
+}
+.incoming {
+  margin: 20px 0;
+}
+.chatbot__input-box {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  border-top: 1px solid #227ebb;
+  background: #f3f7f8;
+  padding: 5px 10px;
+}
+.chatbot__textarea {
+  width: 100%;
+  min-height: 55px;
+  max-height: 180px;
+  font-size: 0.95rem;
+  padding: 16px 15px 16px 0;
+  color: #202020;
+  border: none;
+  outline: none;
+  resize: none;
+  background: transparent;
+}
+.chatbot__textarea::placeholder {
+  font-family: 'Poppins', sans-serif;
+}
+.chatbot__input-box span {
+  font-size: 1.75rem;
+  color: #202020;
+  cursor: pointer;
+  visibility: hidden;
+}
+.chatbot__textarea:valid ~ span {
+  visibility: visible;
+}
+
+@media (max-width: 490px) {
+  .chatbot {
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 0;
+  }
+  .chatbot__box {
+    height: 90%;
+  }
+  .chatbot__header span {
+    display: inline;
+  }
+}
+
+
+    </style>
     <!-- Helpers -->
     <script src="assets/vendor/js/helpers.js"></script>
     <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
@@ -84,31 +265,31 @@ $user = $stmt->fetch();
           <ul class="menu-inner py-1">
             <!-- Dashboards -->
             <div class="menu-item active">
-              <a href="etudiant.php?cin=<?php echo $_GET['cin']; ?>&nom=<?php echo $user['nom']; ?>"  class="menu-link">
+              <!-- <a href="etudiant.php?cin=<?php ////echo $_GET['cin']; ?>&nom=<?php ////echo $user['nom']; ?>"  class="menu-link"> -->
                 <i class="menu-icon tf-icons bx bx-home-circle"></i>
                 <div data-i18n="Dashboards">Dashboard</div>
               </a>
               
             </div>
             <li class="menu-item">
-              <a
-              href="news.php?cin=<?php echo $_GET['cin']; ?>"                
-                class="menu-link">
+              <!-- <a
+              href="news.php?cin=<?php ////echo $_GET['cin']; ?>"                
+                class="menu-link"> -->
                 <i class="menu-icon tf-icons bx bx-spreadsheet"></i>
                 <div data-i18n="Calendar">Actualités</div>
               </a>
             </li>
             <li class="menu-item">
-              <a
-                href="emploi.php?cin=<?php echo $_GET['cin']; ?>" 
-                class="menu-link">
+              <!-- <a
+                href="emploi.php?cin=<?php ////echo $_GET['cin']; ?>" 
+                class="menu-link"> -->
                 <i class="menu-icon tf-icons bx bx-calendar"></i>
                 <div data-i18n="Calendar">Emploi du temps</div>
               </a>
             </li>
             <li class="menu-item">
               <a
-                href="groupe.php?cin=<?php echo $_GET['cin']; ?>" 
+                href="groupe.php?cin=<?php ////echo $_GET['cin']; ?>" 
                 target="_blank"
                 class="menu-link">
                 <i class="menu-icon tf-icons bx bx-user"></i>
@@ -117,7 +298,7 @@ $user = $stmt->fetch();
             </li>
             <li class="menu-item">
               <a
-                href="cours.php?cin=<?php echo $_GET['cin']; ?>" 
+                href="cours.php?cin=<?php ////echo $_GET['cin']; ?>" 
                 target="_blank"
                 class="menu-link">
                 <i class="menu-icon tf-icons bx bx-book"></i>
@@ -126,7 +307,7 @@ $user = $stmt->fetch();
             </li>
             <li class="menu-item">
               <a
-                href="note.php?cin=<?php echo $_GET['cin']; ?>" 
+                href="note.php?cin=<?php ////echo $_GET['cin']; ?>" 
                 target="_blank"
                 class="menu-link">
                 <i class="menu-icon tf-icons bx bx-file-blank"></i>
@@ -135,7 +316,7 @@ $user = $stmt->fetch();
             </li>
             <li class="menu-item">
               <a
-                href="exams.php?cin=<?php echo $_GET['cin']; ?>" 
+                href="exams.php?cin=<?php //echo $_GET['cin']; ?>" 
                 target="_blank"
                 class="menu-link">
                 <i class="menu-icon tf-icons bx bx-calendar"></i>
@@ -144,7 +325,7 @@ $user = $stmt->fetch();
             </li>
             <li class="menu-item">
               <a
-                href="event.php?cin=<?php echo $_GET['cin']; ?>" 
+                href="event.php?cin=<?php //echo $_GET['cin']; ?>" 
                 target="_blank"
                 class="menu-link">
                 <i class="menu-icon tf-icons bx bx-calendar"></i>
@@ -153,7 +334,7 @@ $user = $stmt->fetch();
             </li>
             <li class="menu-item">
               <a
-                href="reclamation.php?cin=<?php echo $_GET['cin']; ?>" 
+                href="reclamation.php?cin=<?php //echo $_GET['cin']; ?>" 
                 class="menu-link">
                 <i class="menu-icon tf-icons bx bx-edit"></i>
                 <div data-i18n="Calendar">Réclamations</div>
@@ -207,22 +388,22 @@ $user = $stmt->fetch();
                 <li class="nav-item navbar-dropdown dropdown-user dropdown">
                   <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
                     <div class="avatar avatar-online">
-                      <img src="uploads/<?php echo $user['photo'] ?>" alt class="w-px-40 h-auto rounded-circle" />
+                      <img src="uploads/<?php //echo $user['photo'] ?>" alt class="w-px-40 h-auto rounded-circle" />
                     </div>
                   </a>
                   <ul class="dropdown-menu dropdown-menu-end">
                     <li>
-                    <a class="dropdown-item" href="profil.php?cin=<?php echo $_GET['cin']; ?>">
+                    <a class="dropdown-item" href="profil.php?cin=<?php //echo $_GET['cin']; ?>">
 
                         <div class="d-flex">
                           <div class="flex-shrink-0 me-3">
                             <div class="avatar avatar-online">
-                              <img src="uploads/<?php echo $user['photo'] ?>" alt class="w-px-40 h-auto rounded-circle" />
+                              <img src="uploads/<?php //echo $user['photo'] ?>" alt class="w-px-40 h-auto rounded-circle" />
                             </div>
                           </div>
                           <div class="flex-grow-1">
                             <span class="fw-medium d-block">
-                               <?php echo $user['nom'] ?>
+                               <?php //echo $user['nom'] ?>
                             </span>
                             <small class="text-muted">Etudiant</small>
                           </div>
@@ -269,12 +450,12 @@ $user = $stmt->fetch();
                     <div class="d-flex align-items-end row">
                       <div class="col-sm-7">
                         <div class="card-body">
-                          <h5 class="card-title text-primary">Bonjour,<?php echo $_GET['nom'] ?> </h5>
+                          <h5 class="card-title text-primary">Bonjour,<?php //echo $_GET['nom'] ?> </h5>
                           <p class="mb-4">
                           Bienvenue sur le site officiel d'ISSAT Sousse
                           </p>
 
-                          <a href="news.php?cin=<?php echo $_GET['cin']; ?>" class="btn btn-sm btn-outline-primary">Voir actualités</a>
+                          <a href="news.php?cin=<?php //echo $_GET['cin']; ?>" class="btn btn-sm btn-outline-primary">Voir actualités</a>
                         </div>
                       </div>
                       <div class="col-sm-5 text-center text-sm-left">
@@ -386,7 +567,35 @@ $user = $stmt->fetch();
                           </div>
                         </div>
                         <div id="growthChart"></div>
-
+                        <button class="chatbot__button">
+                        <span class="material-symbols-outlined">mode_comment</span>
+                        <span class="material-symbols-outlined">close</span>
+                      </button>
+                      <div class="chatbot">
+                        <div class="chatbot__header">
+                          <h3 class="chatbox__title">Chatbot</h3>
+                          <span class="material-symbols-outlined">close</span>
+                        </div>
+                        <ul class="chatbot__box">
+                          <li class="chatbot__chat incoming">
+                            <span class="material-symbols-outlined">smart_toy</span>
+                            <p>Hi there. How can I help you today?</p>
+                          </li>
+                          <li class="chatbot__chat outgoing">
+                            <p>...</p>
+                          </li>
+                        </ul>
+                        <div class="chatbot__input-box">
+                          <textarea
+                            class="chatbot__textarea"
+                            placeholder="Enter a message..."
+                            required
+                          ></textarea>
+                          <input type="file" id="thefile">
+                          <span id="fileName"></span>
+                          <span id="send-btn" class="material-symbols-outlined">send</span>
+                        </div>
+                      </div>
                       </div>
                     </div>
                   </div>
@@ -425,6 +634,117 @@ $user = $stmt->fetch();
 
     <!-- Page JS -->
     <script src="assets/js/dashboards-analytics.js"></script>
+    <script>
+      const chatbotToggle = document.querySelector('.chatbot__button');
+      const sendChatBtn = document.querySelector('.chatbot__input-box span');
+      const chatInput = document.querySelector('.chatbot__textarea');
+      const chatBox = document.querySelector('.chatbot__box');
+      const chatbotCloseBtn = document.querySelector('.chatbot__header span');
+      const fileUpload = document.getElementById('thefile');
+      const fileNameElement = document.getElementById('fileName');
+      
+
+
+let userMessage;
+const inputInitHeight = chatInput.scrollHeight;
+
+
+const createChatLi = (message, className) => {
+  const chatLi = document.createElement('li');
+  chatLi.classList.add('chatbot__chat', className);
+  let chatContent =
+    className === 'outgoing'
+      ? `<p></p>`
+      : `<span class="material-symbols-outlined">smart_toy</span> <p></p>`;
+  chatLi.innerHTML = chatContent;
+  chatLi.querySelector('p').textContent = message;
+  return chatLi;
+};
+
+const generateResponse = async (incomingChatLi) => {
+    const API_URL = 'https://0574-35-227-137-171.ngrok-free.app/upload'; // Update with your server's URL
+    const messageElement = incomingChatLi.querySelector('p');
+    const file = fileUpload.files[0]; // Retrieve the uploaded file
+    const reader = new FileReader();
+
+    reader.onload = async function(event) {
+        const fileContent = event.target.result;
+        //console.log(fileContent)
+        let filecont = atob(fileContent.split(',')[1]);
+
+        const fileData = {
+          context: userMessage.toString(),
+          question: filecont.toString()
+        };
+        console.log(fileData);
+
+        const requestOptions = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json', // Send as JSON
+            },
+            body: JSON.stringify(fileData), // Encode as JSON string
+        };
+
+        try {
+            const response = await fetch(API_URL, requestOptions);
+            if (!response.ok) {
+                throw new Error('Failed to upload file');
+            }
+            console.log(response)
+            const data = await response.json();
+            console.log(data);
+            messageElement.textContent = data.result;
+        } catch (error) {
+            messageElement.classList.add('error');
+            messageElement.textContent = 'Oops! Please try again!';
+            console.error(error);
+        } finally {
+            chatBox.scrollTo(0, chatBox.scrollHeight);
+        }
+    };
+
+    reader.readAsDataURL(file); // Read the file content as Data URL (Base64)
+};
+
+
+const handleChat = () => {
+  userMessage = chatInput.value.trim();
+  if (!userMessage) return;
+  chatInput.value = '';
+  chatInput.style.height = `${inputInitHeight}px`;
+
+  chatBox.appendChild(createChatLi(userMessage, 'outgoing'));
+  chatBox.scrollTo(0, chatBox.scrollHeight);
+
+  setTimeout(() => {
+    const incomingChatLi = createChatLi('Thinking...', 'incoming');
+    chatBox.appendChild(incomingChatLi);
+    chatBox.scrollTo(0, chatBox.scrollHeight);
+    generateResponse(incomingChatLi);
+  }, 600);
+};
+
+chatInput.addEventListener('input', () => {
+  chatInput.style.height = `${inputInitHeight}px`;
+  chatInput.style.height = `${chatInput.scrollHeight}px`;
+});
+chatInput.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter' && !e.shiftKey && window.innerWidth > 800) {
+    e.preventDefault();
+    handleChat();
+  }
+});
+chatbotToggle.addEventListener('click', () =>
+  document.body.classList.toggle('show-chatbot')
+);
+chatbotCloseBtn.addEventListener('click', () =>
+  document.body.classList.remove('show-chatbot')
+);
+sendChatBtn.addEventListener('click', handleChat);
+
+
+    </script>
 
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
