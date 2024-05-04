@@ -2,15 +2,15 @@
 $cin = "111";
 
 // Connexion à la base de données
-//$db = new PDO('mysql:host=localhost;dbname=gestion_cursus', 'root', '');
+$db = new PDO('mysql:host=localhost;dbname=gestion_cursus', 'root', '');
 
 // Requête pour récupérer l'utilisateur avec le CIN et le mot de passe haché
-//$sql = "SELECT * FROM etudiant WHERE cin = :cin";
-//$stmt = $db->prepare($sql);
-//$stmt->execute(['cin' => $cin]);
+$sql = "SELECT * FROM etudiant WHERE cin = :cin";
+$stmt = $db->prepare($sql);
+$stmt->execute(['cin' => $cin]);
 
 // Vérifier si l'utilisateur existe
-//$user = $stmt->fetch();
+$user = $stmt->fetch();
 
 ?>
 <!DOCTYPE html>
@@ -272,17 +272,17 @@ body {
               
             </div>
             <li class="menu-item">
-              <!-- <a
-              href="news.php?cin=<?php ////echo $_GET['cin']; ?>"                
-                class="menu-link"> -->
+              <a
+              href="news.php?cin=<?php echo $_GET['cin']; ?>"                
+                class="menu-link"> 
                 <i class="menu-icon tf-icons bx bx-spreadsheet"></i>
                 <div data-i18n="Calendar">Actualités</div>
               </a>
             </li>
             <li class="menu-item">
-              <!-- <a
-                href="emploi.php?cin=<?php ////echo $_GET['cin']; ?>" 
-                class="menu-link"> -->
+               <a
+                href="emploi.php?cin=<?php echo $_GET['cin']; ?>" 
+                class="menu-link"> 
                 <i class="menu-icon tf-icons bx bx-calendar"></i>
                 <div data-i18n="Calendar">Emploi du temps</div>
               </a>
@@ -329,7 +329,7 @@ body {
             </li>
             <li class="menu-item">
               <a
-                href="reclamation.php?cin=<?php //echo $_GET['cin']; ?>" 
+                href="reclamation.php?cin=<?php echo $_GET['cin']; ?>" 
                 class="menu-link">
                 <i class="menu-icon tf-icons bx bx-edit"></i>
                 <div data-i18n="Calendar">Réclamations</div>
@@ -382,22 +382,22 @@ body {
                 <li class="nav-item navbar-dropdown dropdown-user dropdown">
                   <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
                     <div class="avatar avatar-online">
-                      <img src="uploads/<?php //echo $user['photo'] ?>" alt class="w-px-40 h-auto rounded-circle" />
+                      <img src="uploads/<?php echo $user['photo'] ?>" alt class="w-px-40 h-auto rounded-circle" />
                     </div>
                   </a>
                   <ul class="dropdown-menu dropdown-menu-end">
                     <li>
-                    <a class="dropdown-item" href="profil.php?cin=<?php //echo $_GET['cin']; ?>">
+                    <a class="dropdown-item" href="profil.php?cin=<?php echo $_GET['cin']; ?>">
 
                         <div class="d-flex">
                           <div class="flex-shrink-0 me-3">
                             <div class="avatar avatar-online">
-                              <img src="uploads/<?php //echo $user['photo'] ?>" alt class="w-px-40 h-auto rounded-circle" />
+                              <img src="uploads/<?php echo $user['photo'] ?>" alt class="w-px-40 h-auto rounded-circle" />
                             </div>
                           </div>
                           <div class="flex-grow-1">
                             <span class="fw-medium d-block">
-                               <?php //echo $user['nom'] ?>
+                               <?php echo $user['nom'] ?>
                             </span>
                             <small class="text-muted">Etudiant</small>
                           </div>
@@ -444,12 +444,12 @@ body {
                     <div class="d-flex align-items-end row">
                       <div class="col-sm-7">
                         <div class="card-body">
-                          <h5 class="card-title text-primary">Bonjour,<?php //echo $_GET['nom'] ?> </h5>
+                          <h5 class="card-title text-primary">Bonjour,<?php echo $_GET['nom'] ?> </h5>
                           <p class="mb-4">
                           Bienvenue sur le site officiel d'ISSAT Sousse
                           </p>
 
-                          <a href="news.php?cin=<?php //echo $_GET['cin']; ?>" class="btn btn-sm btn-outline-primary">Voir actualités</a>
+                          <a href="news.php?cin=<?php echo $_GET['cin']; ?>" class="btn btn-sm btn-outline-primary">Voir actualités</a>
                         </div>
                       </div>
                       <div class="col-sm-5 text-center text-sm-left">
