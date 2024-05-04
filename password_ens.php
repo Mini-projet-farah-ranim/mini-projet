@@ -484,7 +484,7 @@ body .twitter svg {
     <h1>Entrer Votre Mot de passe:</h1>
     
     <div class="input email">
-        <input type="text" name ="password" placeholder=" " id="cinInput">
+        <input type="password" name ="password" placeholder=" " id="cinInput">
         <label>Mot de passe:</label>
     </div>
     

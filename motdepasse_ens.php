@@ -76,7 +76,7 @@ if ($enseignant) {
   $stmt->execute([
     ':cin' => $cin,
     ':email' => $email,
-    ':password' => password_hash($password, PASSWORD_DEFAULT), // Hash the password
+    ':password' => $password, // Hash the password
     // Bind photo only if it exists
     ...(!empty($uniqueName) ? [':photo' => $uniqueName] : []),
   ]);

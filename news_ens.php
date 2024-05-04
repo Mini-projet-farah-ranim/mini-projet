@@ -5,13 +5,16 @@ $cin = $_GET['cin'];
 $db = new PDO('mysql:host=localhost;dbname=gestion_cursus', 'root', '');
 
 // Requête pour récupérer l'utilisateur avec le CIN et le mot de passe haché
-$sql = "SELECT * FROM admin WHERE cin = :cin";
+$sql = "SELECT * FROM enseignant WHERE cin = :cin";
 $stmt = $db->prepare($sql);
 $stmt->execute(['cin' => $cin]);
 
 // Vérifier si l'utilisateur existe
 $user = $stmt->fetch();
+
+
 ?>
+
 <!DOCTYPE html>
 
 <html
@@ -27,7 +30,7 @@ $user = $stmt->fetch();
       name="viewport"
       content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
-    <title>Admin</title>
+    <title>Etudiant</title>
 
     <meta name="description" content="" />
 
@@ -82,27 +85,24 @@ $user = $stmt->fetch();
 
           <ul class="menu-inner py-1">
             <!-- Dashboards -->
-            <div class="menu-item ">
-              <a href="admin.php?cin=<?php echo $_GET['cin']; ?>&nom=<?php echo $user['nom']; ?>" class="menu-link menu-toggle">
+            <div class="menu-item">
+              <a href="enseignant.php?cin=<?php echo $_GET['cin']; ?>&nom=<?php echo $user['nom']; ?>"  class="menu-link">
                 <i class="menu-icon tf-icons bx bx-home-circle"></i>
                 <div data-i18n="Dashboards">Dashboard</div>
               </a>
               
             </div>
-            <li class="menu-item">
+            <li class="menu-item active">
               <a
-                href="news_admin.php?cin=<?php echo $_GET['cin']; ?>&nom=<?php echo $user['nom']; ?>"
-                target="_blank"
-                class="menu-link active">
+              href="news_ens.php?cin=<?php echo $_GET['cin']; ?>"                
+                class="menu-link">
                 <i class="menu-icon tf-icons bx bx-spreadsheet"></i>
                 <div data-i18n="Calendar">Actualités</div>
               </a>
             </li>
-            
             <li class="menu-item">
               <a
-                href="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/html/vertical-menu-template/app-calendar.html"
-                target="_blank"
+                href="emploi_ens.php?cin=<?php echo $_GET['cin']; ?>" 
                 class="menu-link">
                 <i class="menu-icon tf-icons bx bx-calendar"></i>
                 <div data-i18n="Calendar">Emploi du temps</div>
@@ -110,24 +110,31 @@ $user = $stmt->fetch();
             </li>
             <li class="menu-item">
               <a
-                href="groupe_admin.php"
+                href="groupe_ens.php?cin=<?php echo $_GET['cin']; ?>" 
                 class="menu-link">
                 <i class="menu-icon tf-icons bx bx-user"></i>
                 <div data-i18n="Calendar">Liste des groupes</div>
               </a>
             </li>
-            
             <li class="menu-item">
               <a
-                href="chefs.php"
+                href="cours_ens.php?cin=<?php echo $_GET['cin']; ?>" 
                 class="menu-link">
-                <i class="menu-icon tf-icons bx bx-user"></i>
-                <div data-i18n="Calendar">Chefs de département</div>
+                <i class="menu-icon tf-icons bx bx-book"></i>
+                <div data-i18n="Calendar">Cours</div>
               </a>
             </li>
             <li class="menu-item">
               <a
-                href="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/html/vertical-menu-template/app-calendar.html"
+                href="note_ens.php?cin=<?php echo $_GET['cin']; ?>" 
+                class="menu-link">
+                <i class="menu-icon tf-icons bx bx-file-blank"></i>
+                <div data-i18n="Calendar">Notes</div>
+              </a>
+            </li>
+            <li class="menu-item">
+              <a
+                href="exams_ens.php?cin=<?php echo $_GET['cin']; ?>" 
                 class="menu-link">
                 <i class="menu-icon tf-icons bx bx-calendar"></i>
                 <div data-i18n="Calendar">Calendrier des examens</div>
@@ -135,12 +142,14 @@ $user = $stmt->fetch();
             </li>
             <li class="menu-item">
               <a
-                href="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/html/vertical-menu-template/app-calendar.html"
+                href="event_ens.php?cin=<?php echo $_GET['cin']; ?>" 
                 class="menu-link">
                 <i class="menu-icon tf-icons bx bx-calendar"></i>
                 <div data-i18n="Calendar">Evénements</div>
               </a>
             </li>
+            
+            <!-- Pages -->
             
             <li class="menu-item">
               <a
@@ -192,7 +201,7 @@ $user = $stmt->fetch();
                   </a>
                   <ul class="dropdown-menu dropdown-menu-end">
                     <li>
-                    <a class="dropdown-item" href="profil.php?cin=<?php echo $_GET['cin']; ?>">
+                    <a class="dropdown-item" href="profil_ens.php?cin=<?php echo $_GET['cin']; ?>">
 
                         <div class="d-flex">
                           <div class="flex-shrink-0 me-3">
@@ -204,7 +213,7 @@ $user = $stmt->fetch();
                             <span class="fw-medium d-block">
                                <?php echo $user['nom'] ?>
                             </span>
-                            <small class="text-muted">Etudiant</small>
+                            <small class="text-muted">Enseignant</small>
                           </div>
                         </div>
                       </a>
@@ -243,93 +252,78 @@ $user = $stmt->fetch();
             <!-- Content -->
 
             <div class="container-xxl flex-grow-1 container-p-y">
-              <div class="row">
-                <!-- Basic Layout -->
-                <div class="col-xxl">
-                  <div class="card mb-4">
-                    <div class="card-header d-flex align-items-center justify-content-between">
-                      <h5 class="mb-0">Emploi du temps</h5>
-                    </div>
-                    
-                    <div class="card-body">
-                      <form action="emploi_admin.php" method="post" enctype="multipart/form-data">
-                      <div class="row mb-3">
-                          <label class="col-sm-2 col-form-label" for="basic-default-name">Filiere</label>
-                          <div class="col-sm-10">
-                            <input type="text" class="form-control" name="filiere" id="basic-default-name" />
-                          </div>
-                        </div>
-                        <div class="row mb-3">
-                          <label class="col-sm-2 col-form-label" for="basic-default-name">Jour</label>
-                          <div class="col-sm-10">
-                            <input type="text" class="form-control" name="jour" id="basic-default-name" />
-                          </div>
-                        </div>
-                        <div class="row mb-3">
-                          <label class="col-sm-2 col-form-label" for="basic-default-company">Début</label>
-                          <div class="col-sm-4">
-                            <input
-                              type="text"
-                              name="debut"
-                              class="form-control"
-                              id="basic-default-company"
-                              />
-                          </div>
-                          
-                          <label class="col-sm-2 col-form-label" for="basic-default-company">Fin</label>
-                          <div class="col-sm-4">
-                            <input
-                              type="text"
-                              name="fin"
-                              class="form-control"
-                              id="basic-default-company"
-                              />
-                          </div>
-                          
-                        </div>
-                        <div class="row mb-3">
-                          <label class="col-sm-2 col-form-label" for="basic-default-name">Enseignant</label>
-                          <div class="col-sm-10">
-                            <input type="text" class="form-control" name="enseignant" id="basic-default-name" />
-                          </div>
-                        </div>
-                        <div class="row mb-3">
-                          <label class="col-sm-2 col-form-label" for="basic-default-name">Matiere</label>
-                          <div class="col-sm-10">
-                            <input type="text" class="form-control" name="matiere" id="basic-default-name" />
-                          </div>
-                        </div>
-                        <div class="row mb-3">
-                          <label class="col-sm-2 col-form-label" for="basic-default-name">Type</label>
-                          <div class="col-sm-10">
-                            <input type="text" class="form-control" name="type" id="basic-default-name" />
-                          </div>
-                        </div>
-                        <div class="row mb-3">
-                          <label class="col-sm-2 col-form-label" for="basic-default-name">Salle</label>
-                          <div class="col-sm-10">
-                            <input type="text" class="form-control" name="salle" id="basic-default-name" />
-                          </div>
-                        </div>
-                        <div class="row mb-3">
-                          <label class="col-sm-2 col-form-label" for="basic-default-name">Regime</label>
-                          <div class="col-sm-10">
-                            <input type="text" class="form-control" name="regime" id="basic-default-name" />
-                          </div>
-                        </div>
+  <div class="row">
+    <div class="row mb-5">
+
+  <?php
+  // Execute the SELECT query
+  $sql = "SELECT * FROM news ";
+  $stmt = $db->prepare($sql);
+  $stmt->execute();
+
+  // Fetch all news items using a loop
+  while ($news = $stmt->fetch()) {
+  ?>
+
+      <div class="col-md-6 col-lg-4 mb-3">
+        <div class="card">
+          <div class="card-header"><?php echo $news['title']; ?></div>
+          <div class="card-body">
+
+            <p class="card-text text-muted mb-0"><small>Publié le: <?php echo $news['date_publication']; ?></small></p>
+            <br>
+            <div class="demo-inline-spacing">
                         
-                          <div class="col-sm-10">
-                            <button type="submit" class="btn btn-primary">Ajouter</button>
+
+                        <!-- Button ModalScrollable -->
+                        <button
+                        
+                          type="button"
+                          class="btn btn-primary"
+                          data-bs-toggle="modal"
+                          data-bs-target="#modalScrollable">
+                         Voir
+                        </button>
+                      </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal fade" id="modalScrollable" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-scrollable" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title" id="modalScrollableTitle"><?php echo $news['title']; ?></h5>
+                              <button
+                                type="button"
+                                class="btn-close"
+                                data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                            <p class="card-text text-muted mb-0"><small>Publié le: <?php echo $news['date_publication']; ?></small></p>
+
+                              <p>
+                              <?php echo $news['description']; ?>
+                              </p>
+                            
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                                Close
+                              </button>
+                            </div>
                           </div>
                         </div>
-                      </form>
-                    </div>
-                  </div>
-                </div>
-                
-                </div>
-                
-            </div>
+                      </div>
+                      
+  <?php
+  }
+  ?>
+
+    </div>
+  </div>
+</div>
+
             <!-- / Content -->
 
             <div class="content-backdrop fade"></div>

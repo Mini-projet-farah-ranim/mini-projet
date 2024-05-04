@@ -116,7 +116,7 @@ $user = $stmt->fetch();
             </li>
             <li class="menu-item">
               <a
-                href="cours_add.php?cin=<?php echo $_GET['cin']; ?>" 
+                href="cours_ens.php?cin=<?php echo $_GET['cin']; ?>" 
                 class="menu-link">
                 <i class="menu-icon tf-icons bx bx-book"></i>
                 <div data-i18n="Calendar">Cours</div>
@@ -198,7 +198,7 @@ $user = $stmt->fetch();
                   </a>
                   <ul class="dropdown-menu dropdown-menu-end">
                     <li>
-                    <a class="dropdown-item" href="profil.php?cin=<?php echo $_GET['cin']; ?>">
+                    <a class="dropdown-item" href="profil_ens.php?cin=<?php echo $_GET['cin']; ?>">
 
                         <div class="d-flex">
                           <div class="flex-shrink-0 me-3">

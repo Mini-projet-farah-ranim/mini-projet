@@ -21,9 +21,6 @@ if (!$user) {
 }
 else{
 // L'utilisateur est authentifié, démarrer la session et le rediriger
-session_start();
-$_SESSION['user_id'] = $user['id'];
-setcookie('cin', $cin, time() + (86400), "/"); 
-header('Location: enseignant.php?cin=' . $cin); 
+header('Location: enseignant.php?cin=' . $cin. '&nom=' . $user['nom']); 
 }
 ?>

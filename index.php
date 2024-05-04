@@ -55,9 +55,9 @@ switch ($user['type']) {
       
           if (!$enseignant) {
             // Insérer l'enseignant
-            $sql = "INSERT INTO enseignant (cin, nom, titre_ens) VALUES (:cin, :nom, :titre_ens)";
+            $sql = "INSERT INTO enseignant (cin, nom,prenom, titre_ens) VALUES (:cin, :nom, :prenom,:titre_ens)";
             $stmt = $db->prepare($sql);
-            $stmt->execute(['cin' => $user['cin'], 'nom' => $user['nom'], 'titre_ens' => $user['titre_ens']]);
+            $stmt->execute(['cin' => $user['cin'], 'nom' => $user['nom'],'prenom' => $user['prenom'],  'titre_ens' => $user['titre_ens']]);
             header('Location: accueil_enseignant.php?cin=' . $cin. '&nom=' . $user['nom']);  
             } else {
               // Afficher un message d'erreur
