@@ -29,23 +29,19 @@ if (!$user) {
 switch ($user['type']) {
   case 'etudiant':
           // Vérifier si l'étudiant existe déjà
-          $sql = "SELECT * FROM etudiant WHERE cin = :cin";
+          $sql = "SELECT * FROM groupe WHERE cin = :cin";
           $stmt = $db->prepare($sql);
           $stmt->execute(['cin' => $user['cin']]);
           $etudiant = $stmt->fetch();
       
           if (!$etudiant) {
             // Insérer l'étudiant
-            $sql = "INSERT INTO etudiant (cin,inscription, nom,prenom, filiere, groupe) VALUES (:cin,:inscription, :nom, :prenom,:filiere, :groupe)";
+            $sql = "INSERT INTO groupe (cin,inscription, nom,prenom, filiere, group) VALUES (:cin,:inscription, :nom, :prenom,:filiere, :group)";
             $stmt = $db->prepare($sql);
-            $stmt->execute(['cin' => $user['cin'],'inscription' => $user['inscription'], 'nom' => $user['nom'], 'prenom' => $user['prenom'], 'filiere' => $user['filiere'], 'groupe' => $user['groupe']]);
+            $stmt->execute(['cin' => $user['cin'],'inscription' => $user['inscription'], 'nom' => $user['nom'], 'prenom' => $user['prenom'], 'filiere' => $user['filiere'], 'group' => $user['group']]);
             header('Location: accueil_etudiant.php?cin=' . $cin. '&nom=' . $user['nom']);  
-            } else {
-              // Afficher un message d'erreur
-              header('Location: password.php?cin=' . $cin);    
-            }  
-            
-            
+            } 
+                        
             break;
   case 'enseignant':
     $sql = "SELECT * FROM enseignant WHERE cin = :cin";
@@ -55,9 +51,9 @@ switch ($user['type']) {
       
           if (!$enseignant) {
             // Insérer l'enseignant
-            $sql = "INSERT INTO enseignant (cin, nom,prenom, titre_ens) VALUES (:cin, :nom, :prenom,:titre_ens)";
+            $sql = "INSERT INTO enseignant (cin, nom, titre_ens) VALUES (:cin, :nom, :titre_ens)";
             $stmt = $db->prepare($sql);
-            $stmt->execute(['cin' => $user['cin'], 'nom' => $user['nom'],'prenom' => $user['prenom'],  'titre_ens' => $user['titre_ens']]);
+            $stmt->execute(['cin' => $user['cin'], 'nom' => $user['nom'], 'titre_ens' => $user['titre_ens']]);
             header('Location: accueil_enseignant.php?cin=' . $cin. '&nom=' . $user['nom']);  
             } else {
               // Afficher un message d'erreur
@@ -65,7 +61,7 @@ switch ($user['type']) {
             }  
     break;
   case 'chef':
-    header('Location: accueil_chef.php?cin=' . $cin. '&nom=' . $user['nom']); 
+    header('Location: accueil_chef.php?cin=' . $cin);
     break;
   case 'admin':
     header('Location: accueil_admin.php?cin=' . $cin);

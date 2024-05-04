@@ -5,16 +5,13 @@ $cin = $_GET['cin'];
 $db = new PDO('mysql:host=localhost;dbname=gestion_cursus', 'root', '');
 
 // Requête pour récupérer l'utilisateur avec le CIN et le mot de passe haché
-$sql = "SELECT * FROM etudiant WHERE cin = :cin";
+$sql = "SELECT * FROM enseignant WHERE cin = :cin";
 $stmt = $db->prepare($sql);
 $stmt->execute(['cin' => $cin]);
 
 // Vérifier si l'utilisateur existe
 $user = $stmt->fetch();
-
-
 ?>
-
 <!DOCTYPE html>
 
 <html
@@ -30,7 +27,7 @@ $user = $stmt->fetch();
       name="viewport"
       content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
-    <title>Etudiant</title>
+    <title> Enseignant</title>
 
     <meta name="description" content="" />
 
@@ -38,6 +35,7 @@ $user = $stmt->fetch();
     <link rel="icon" type="image/x-icon" href="logo.png" />
 
     <!-- Fonts -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css">
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -86,7 +84,7 @@ $user = $stmt->fetch();
           <ul class="menu-inner py-1">
             <!-- Dashboards -->
             <div class="menu-item">
-              <a href="etudiant.php?cin=<?php echo $_GET['cin']; ?>&nom=<?php echo $user['nom']; ?>"  class="menu-link">
+              <a href="enseignant.php?cin=<?php echo $_GET['cin']; ?>&nom=<?php echo $user['nom']; ?>"  class="menu-link">
                 <i class="menu-icon tf-icons bx bx-home-circle"></i>
                 <div data-i18n="Dashboards">Dashboard</div>
               </a>
@@ -94,15 +92,15 @@ $user = $stmt->fetch();
             </div>
             <li class="menu-item">
               <a
-              href="news.php?cin=<?php echo $_GET['cin']; ?>"                
+              href="news_ens.php?cin=<?php echo $_GET['cin']; ?>"                
                 class="menu-link">
                 <i class="menu-icon tf-icons bx bx-spreadsheet"></i>
                 <div data-i18n="Calendar">Actualités</div>
               </a>
             </li>
-            <li class="menu-item active">
+            <li class="menu-item ">
               <a
-                href="emploi.php?cin=<?php echo $_GET['cin']; ?>" 
+                href="emploi_ens.php?cin=<?php echo $_GET['cin']; ?>" 
                 class="menu-link">
                 <i class="menu-icon tf-icons bx bx-calendar"></i>
                 <div data-i18n="Calendar">Emploi du temps</div>
@@ -110,7 +108,7 @@ $user = $stmt->fetch();
             </li>
             <li class="menu-item">
               <a
-                href="groupe.php?cin=<?php echo $_GET['cin']; ?>" 
+                href="groupe_ens.php?cin=<?php echo $_GET['cin']; ?>" 
                 class="menu-link">
                 <i class="menu-icon tf-icons bx bx-user"></i>
                 <div data-i18n="Calendar">Liste des groupes</div>
@@ -118,15 +116,15 @@ $user = $stmt->fetch();
             </li>
             <li class="menu-item">
               <a
-                href="cours.php?cin=<?php echo $_GET['cin']; ?>" 
+                href="cours_ens.php?cin=<?php echo $_GET['cin']; ?>" 
                 class="menu-link">
                 <i class="menu-icon tf-icons bx bx-book"></i>
                 <div data-i18n="Calendar">Cours</div>
               </a>
             </li>
-            <li class="menu-item">
+            <li class="menu-item active">
               <a
-                href="note.php?cin=<?php echo $_GET['cin']; ?>" 
+                href="note_ens.php?cin=<?php echo $_GET['cin']; ?>" 
                 class="menu-link">
                 <i class="menu-icon tf-icons bx bx-file-blank"></i>
                 <div data-i18n="Calendar">Notes</div>
@@ -134,7 +132,7 @@ $user = $stmt->fetch();
             </li>
             <li class="menu-item">
               <a
-                href="exams.php?cin=<?php echo $_GET['cin']; ?>" 
+                href="exams_ens.php?cin=<?php echo $_GET['cin']; ?>" 
                 class="menu-link">
                 <i class="menu-icon tf-icons bx bx-calendar"></i>
                 <div data-i18n="Calendar">Calendrier des examens</div>
@@ -143,17 +141,10 @@ $user = $stmt->fetch();
             <li class="menu-item">
               <a
                 href="event.php?cin=<?php echo $_GET['cin']; ?>" 
+                target="_blank"
                 class="menu-link">
                 <i class="menu-icon tf-icons bx bx-calendar"></i>
                 <div data-i18n="Calendar">Evénements</div>
-              </a>
-            </li>
-            <li class="menu-item">
-              <a
-                href="reclamation.php?cin=<?php echo $_GET['cin']; ?>" 
-                class="menu-link">
-                <i class="menu-icon tf-icons bx bx-edit"></i>
-                <div data-i18n="Calendar">Réclamations</div>
               </a>
             </li>
             <!-- Pages -->
@@ -208,7 +199,7 @@ $user = $stmt->fetch();
                   </a>
                   <ul class="dropdown-menu dropdown-menu-end">
                     <li>
-                    <a class="dropdown-item" href="profil.php?cin=<?php echo $_GET['cin']; ?>">
+                    <a class="dropdown-item" href="profil_ens.php?cin=<?php echo $_GET['cin']; ?>">
 
                         <div class="d-flex">
                           <div class="flex-shrink-0 me-3">
@@ -220,7 +211,7 @@ $user = $stmt->fetch();
                             <span class="fw-medium d-block">
                                <?php echo $user['nom'] ?>
                             </span>
-                            <small class="text-muted">Etudiant</small>
+                            <small class="text-muted">Enseignant</small>
                           </div>
                         </div>
                       </a>
@@ -256,56 +247,91 @@ $user = $stmt->fetch();
 
           <!-- Content wrapper -->
           <div class="content-wrapper">
-           
             <!-- Content -->
 
             <div class="container-xxl flex-grow-1 container-p-y">
-            <?php
-                                     // Execute the SELECT query
-                                     $sql = "SELECT * FROM emploi ";
-                                     $stmt = $db->prepare($sql);
-                                     $stmt->execute();
-                                     $emploi = $stmt->fetch();
-                                     ?>
-              <h4 class="py-3 mb-4"><span class="text-muted fw-light">Emploi du temps /</span><?php echo $emploi['date']; ?></h4>
-              <!-- Basic Bootstrap Table -->
-              <div class="card">
-                <div class="table-responsive text-nowrap">
-                  <table class="table">
-                    <thead>
-                      <tr>
-                        <th>Jour </th>
-                        <th>Debut </th>
-                        <th>Fin</th>
-                        <th>Matiere</th>
-                        <th>Enseignant</th>
-                        <th>Type</th>
-                        <th>Salle</th>
-                        <th>Régime</th>
-                      </tr>
-                    </thead>
+              <div class="row">
+                <!-- Basic Layout -->
+                  <div class="col-xxl">
+                  <div class="card mb-4">
+                    <div class="card-header d-flex align-items-center justify-content-between">
+                      <h5 class="mb-0">Notes</h5>
+                    </div>
+                    
+                    <div class="card-body">
+                    <form action="note_add.php" method="post" enctype="multipart/form-data">
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <label for="cin" class="form-label">Numero d'inscription</label>
+                      <input type="number" class="form-control" name="inscription" id="matiere"/>
+                    </div>
+                  </div><br>
+                  <div class="row">
+                    <div class="col-sm-6">
+                      <label for="objet" class="form-label">Matiere</label>
+                      <input type="text" class="form-control" name="matiere" id="pdf" />
+                    </div>
+                  
+                    <div class="col-sm-6">
+                      <label for="objet" class="form-label">Note</label>
+                      <input type="number" class="form-control" name="note" id="basic-default-name" />
+                    </div>
+                  </div>
+                  <div class="row">
+                  <div class="col-sm-6">
+                      <input type="text" class="form-control" name="cin" id="basic-default-name" value="<?php echo isset($_GET['cin']) ? $_GET['cin'] : ''; ?>" hidden/>
+                    </div>
+                  </div>
+                  <br>
+                  <div class="row">
+                    <div class="col-sm-12 ">
+                      <button type="submit" class="btn btn-primary">Ajouter</button>
+                    </div>
+                  </div>
+                        </form>
+
+                  </div>
+              </div>
+               
+                <div class="row">
+                <!-- Basic Layout -->
+                    <div class="col-xxl">
+                          <div class="card mb-4">
+                                <div class="card-header d-flex align-items-center justify-content-between">
+                                  <h5 class="mb-0">Liste des notes</h5>
+                                </div>
+                                
+                                <div class="card-body">
+                                
+                                <div class="table-responsive text-nowrap">
+                                <table class="table">
+                                          <thead>
+                                            <tr>
+                                              
+                                              <th>Numero d'inscription </th>
+                                              <th>Matiere</th>
+                                              <th>Note</th>
+                                              <th></th>
+                                            </tr>
+                                          </thead>
                     
                                            <tbody class="table-border-bottom-0">
                                              
                                              <?php
                                      // Execute the SELECT query
-                                     $sql = "SELECT * FROM emploi ";
+                                     $sql = "SELECT * FROM note ";
                                      $stmt = $db->prepare($sql);
                                      $stmt->execute();
                                      // Fetch all news items using a loop
-                                     while ($emploi = $stmt->fetch()) {
-                                     ?> <tr>   <td ><?php echo $emploi['jour']; ?></td> 
+                                     while ($note = $stmt->fetch()) {
+                                     ?> <tr>   
+                                               <td ><?php echo $note['inscription']; ?></td>
                                                <td>
-                                               <?php echo $emploi['debut']; ?>
+                                               <?php echo $note['matiere']; ?>
                                                </td>
-                                               <td ><?php echo $emploi['fin']; ?></td>
-                                               <td >
-                                               <?php echo $emploi['matiere']; ?>
-                                               </td>
-                                               <td ><?php echo $emploi['enseignant']; ?></td>
-                                               <td ><?php echo $emploi['type']; ?></td>
-                                               <td ><?php echo $emploi['salle']; ?></td>
-                                               <td ><?php echo $emploi['regime']; ?></td>
+                                               <td ><?php echo $note['note']; ?></td>
+                                               <td ><a href="notedelete.php?cin=<?php echo $user['cin']; ?>&id=<?php echo $note['id'] ?>"><i class="fa fa-trash-alt"></i></a></td> 
+                                               
                                                </tr>
                                                <?php
                                    }
@@ -318,10 +344,13 @@ $user = $stmt->fetch();
                            
                   </table>
                 </div>
-              </div>
-              <!--/ Basic Bootstrap Table -->
-              
+                                </div>
+                          </div>
+                    </div>
+                </div>
+                
             </div>
+        </div>
             <!-- / Content -->
 
             <div class="content-backdrop fade"></div>

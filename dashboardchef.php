@@ -5,16 +5,14 @@ $cin = $_GET['cin'];
 $db = new PDO('mysql:host=localhost;dbname=gestion_cursus', 'root', '');
 
 // Requête pour récupérer l'utilisateur avec le CIN et le mot de passe haché
-$sql = "SELECT * FROM etudiant WHERE cin = :cin";
+$sql = "SELECT * FROM chef WHERE cin = :cin";
 $stmt = $db->prepare($sql);
 $stmt->execute(['cin' => $cin]);
 
 // Vérifier si l'utilisateur existe
 $user = $stmt->fetch();
 
-
 ?>
-
 <!DOCTYPE html>
 
 <html
@@ -30,7 +28,7 @@ $user = $stmt->fetch();
       name="viewport"
       content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
-    <title>Etudiant</title>
+    <title>Chef département</title>
 
     <meta name="description" content="" />
 
@@ -85,8 +83,8 @@ $user = $stmt->fetch();
 
           <ul class="menu-inner py-1">
             <!-- Dashboards -->
-            <div class="menu-item">
-              <a href="etudiant.php?cin=<?php echo $_GET['cin']; ?>&nom=<?php echo $user['nom']; ?>"  class="menu-link">
+            <div class="menu-item active">
+              <a href="chef.php?cin=<?php echo $_GET['cin']; ?>&nom=<?php echo $user['nom']; ?>"  class="menu-link">
                 <i class="menu-icon tf-icons bx bx-home-circle"></i>
                 <div data-i18n="Dashboards">Dashboard</div>
               </a>
@@ -100,7 +98,7 @@ $user = $stmt->fetch();
                 <div data-i18n="Calendar">Actualités</div>
               </a>
             </li>
-            <li class="menu-item active">
+            <li class="menu-item">
               <a
                 href="emploi.php?cin=<?php echo $_GET['cin']; ?>" 
                 class="menu-link">
@@ -111,6 +109,7 @@ $user = $stmt->fetch();
             <li class="menu-item">
               <a
                 href="groupe.php?cin=<?php echo $_GET['cin']; ?>" 
+                target="_blank"
                 class="menu-link">
                 <i class="menu-icon tf-icons bx bx-user"></i>
                 <div data-i18n="Calendar">Liste des groupes</div>
@@ -118,23 +117,26 @@ $user = $stmt->fetch();
             </li>
             <li class="menu-item">
               <a
-                href="cours.php?cin=<?php echo $_GET['cin']; ?>" 
+                href="programme.php?cin=<?php echo $_GET['cin']; ?>" 
+                target="_blank"
                 class="menu-link">
                 <i class="menu-icon tf-icons bx bx-book"></i>
-                <div data-i18n="Calendar">Cours</div>
+                <div data-i18n="Calendar">Programmes d'études</div>
               </a>
             </li>
             <li class="menu-item">
               <a
-                href="note.php?cin=<?php echo $_GET['cin']; ?>" 
+                href="gestionEnseignant.php?cin=<?php echo $_GET['cin']; ?>" 
+                target="_blank"
                 class="menu-link">
-                <i class="menu-icon tf-icons bx bx-file-blank"></i>
-                <div data-i18n="Calendar">Notes</div>
+                <i class="menu-icon tf-icons bx bx-user"></i>
+                <div data-i18n="Calendar">Gestion enseignants</div>
               </a>
             </li>
             <li class="menu-item">
               <a
                 href="exams.php?cin=<?php echo $_GET['cin']; ?>" 
+                target="_blank"
                 class="menu-link">
                 <i class="menu-icon tf-icons bx bx-calendar"></i>
                 <div data-i18n="Calendar">Calendrier des examens</div>
@@ -143,6 +145,7 @@ $user = $stmt->fetch();
             <li class="menu-item">
               <a
                 href="event.php?cin=<?php echo $_GET['cin']; ?>" 
+                target="_blank"
                 class="menu-link">
                 <i class="menu-icon tf-icons bx bx-calendar"></i>
                 <div data-i18n="Calendar">Evénements</div>
@@ -160,7 +163,8 @@ $user = $stmt->fetch();
             
             <li class="menu-item">
               <a
-                href="home.php"
+                href="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/html/vertical-menu-template/app-calendar.html"
+                target="_blank"
                 class="menu-link">
                 <i class="menu-icon tf-icons bx bx-log-out"></i>
                 <div data-i18n="Calendar">Logout</div>
@@ -220,7 +224,7 @@ $user = $stmt->fetch();
                             <span class="fw-medium d-block">
                                <?php echo $user['nom'] ?>
                             </span>
-                            <small class="text-muted">Etudiant</small>
+                            <small class="text-muted">chef</small>
                           </div>
                         </div>
                       </a>
@@ -256,73 +260,140 @@ $user = $stmt->fetch();
 
           <!-- Content wrapper -->
           <div class="content-wrapper">
-           
             <!-- Content -->
 
             <div class="container-xxl flex-grow-1 container-p-y">
-            <?php
-                                     // Execute the SELECT query
-                                     $sql = "SELECT * FROM emploi ";
-                                     $stmt = $db->prepare($sql);
-                                     $stmt->execute();
-                                     $emploi = $stmt->fetch();
-                                     ?>
-              <h4 class="py-3 mb-4"><span class="text-muted fw-light">Emploi du temps /</span><?php echo $emploi['date']; ?></h4>
-              <!-- Basic Bootstrap Table -->
-              <div class="card">
-                <div class="table-responsive text-nowrap">
-                  <table class="table">
-                    <thead>
-                      <tr>
-                        <th>Jour </th>
-                        <th>Debut </th>
-                        <th>Fin</th>
-                        <th>Matiere</th>
-                        <th>Enseignant</th>
-                        <th>Type</th>
-                        <th>Salle</th>
-                        <th>Régime</th>
-                      </tr>
-                    </thead>
-                    
-                                           <tbody class="table-border-bottom-0">
-                                             
-                                             <?php
-                                     // Execute the SELECT query
-                                     $sql = "SELECT * FROM emploi ";
-                                     $stmt = $db->prepare($sql);
-                                     $stmt->execute();
-                                     // Fetch all news items using a loop
-                                     while ($emploi = $stmt->fetch()) {
-                                     ?> <tr>   <td ><?php echo $emploi['jour']; ?></td> 
-                                               <td>
-                                               <?php echo $emploi['debut']; ?>
-                                               </td>
-                                               <td ><?php echo $emploi['fin']; ?></td>
-                                               <td >
-                                               <?php echo $emploi['matiere']; ?>
-                                               </td>
-                                               <td ><?php echo $emploi['enseignant']; ?></td>
-                                               <td ><?php echo $emploi['type']; ?></td>
-                                               <td ><?php echo $emploi['salle']; ?></td>
-                                               <td ><?php echo $emploi['regime']; ?></td>
-                                               </tr>
-                                               <?php
-                                   }
-                                   ?>
-                                            
-                                             
-                                           </tbody>
-                               </table>
-                           
-                           
-                  </table>
+              <div class="row">
+                <div class="col-lg-8 mb-4 order-0">
+                  <div class="card">
+                    <div class="d-flex align-items-end row">
+                      <div class="col-sm-7">
+                        <div class="card-body">
+                          <h5 class="card-title text-primary">Bonjour,<?php echo $_GET['nom'] ?> </h5>
+                          <p class="mb-4">
+                          Bienvenue sur le site officiel d'ISSAT Sousse
+                          </p>
+
+                          <a href="news.php?cin=<?php echo $_GET['cin']; ?>" class="btn btn-sm btn-outline-primary">Voir actualités</a>
+                        </div>
+                      </div>
+                      <div class="col-sm-5 text-center text-sm-left">
+                        <div class="card-body pb-0 px-0 px-md-4">
+                          <img
+                            src="assets/img/illustrations/man-with-laptop-light.png"
+                            height="140"
+                            alt="View Badge User"
+                            data-app-dark-img="illustrations/man-with-laptop-dark.png"
+                            data-app-light-img="illustrations/man-with-laptop-light.png" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-              </div>
-              <!--/ Basic Bootstrap Table -->
-              
-            </div>
-            <!-- / Content -->
+                <div class="col-lg-4 col-md-4 order-1">
+                  <div class="row">
+                    <div class="col-lg-7 col-md-12 col-6 mb-4">
+                      <div class="card">
+                        <div class="card-body">
+                          <div class="card-title d-flex align-items-start justify-content-between">
+                            <div class="avatar flex-shrink-0">
+                              <img
+                                src="assets/img/icons/unicons/chart-success.png"
+                                alt="chart success"
+                                class="rounded" />
+                            </div>
+                            <div class="dropdown">
+                              <button
+                                class="btn p-0"
+                                type="button"
+                                id="cardOpt3"
+                                data-bs-toggle="dropdown"
+                                aria-haspopup="true"
+                                aria-expanded="false">
+                                <i class="bx bx-dots-vertical-rounded"></i>
+                              </button>
+                              <div class="dropdown-menu dropdown-menu-end" aria-labelledby="cardOpt3">
+                                <a class="dropdown-item" href="javascript:void(0);">View More</a>
+                                <a class="dropdown-item" href="javascript:void(0);">Delete</a>
+                              </div>
+                            </div>
+                          </div>
+                          <span class="fw-medium d-block mb-1">Compte Rendu</span>
+                          <h3 class="card-title mb-2">3</h3>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-lg-5 col-md-12 col-6 mb-4">
+                      <div class="card">
+                        <div class="card-body">
+                          <div class="card-title d-flex align-items-start justify-content-between">
+                            <div class="avatar flex-shrink-0">
+                              <img
+                                src="assets/img/icons/unicons/wallet-info.png"
+                                alt="Credit Card"
+                                class="rounded" />
+                            </div>
+                            <div class="dropdown">
+                              <button
+                                class="btn p-0"
+                                type="button"
+                                id="cardOpt6"
+                                data-bs-toggle="dropdown"
+                                aria-haspopup="true"
+                                aria-expanded="false">
+                                <i class="bx bx-dots-vertical-rounded"></i>
+                              </button>
+                              <div class="dropdown-menu dropdown-menu-end" aria-labelledby="cardOpt6">
+                                <a class="dropdown-item" href="javascript:void(0);">View More</a>
+                                <a class="dropdown-item" href="javascript:void(0);">Delete</a>
+                              </div>
+                            </div>
+                          </div>
+                          <span>Cours</span>
+                          <h3 class="card-title text-nowrap mb-1">10</h3>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- Total Revenue -->
+                <div class="col-12 col-lg-12 order-2 order-md-3 order-lg-2 mb-4">
+  <div class="card">
+    <div class="row row-bordered g-0">
+      <div class="col-md-8">
+      <div class="card-body">
+        <h5 class="card-title text-primary">Réclamations</h5>
+        <ul class="list-group mt-8">
+          <?php
+          // Database connection
+          $db = new PDO('mysql:host=localhost;dbname=gestion_cursus', 'root', '');
+
+          // Requête pour récupérer les réclamations
+          $sql = "SELECT id,sujet, date FROM reclamations";
+          $stmt = $db->prepare($sql);
+          $stmt->execute();
+
+          // Fetch all reclamations
+          $reclamations = $stmt->fetchAll(PDO::FETCH_ASSOC);
+          ?>
+          <?php foreach ($reclamations as $reclamation): ?>
+            <li class="list-group-item d-flex justify-content-between align-items-center" style="display: flex; align-items: center;">
+        <div style="flex: 1;">
+            <?= $reclamation['sujet'] ?>
+        </div>
+        <span class="badge bg-primary rounded-pill" style="margin-right: 5px;">
+            <?= $reclamation['date'] ?>
+        </span>
+        <button type="button" class="btn btn-sm btn-outline-primary" onclick="openReclamation(<?= $reclamation['id'] ?>)">More</button>
+    </li>
+          <?php endforeach; ?>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+                
+
 
             <div class="content-backdrop fade"></div>
           </div>

@@ -5,7 +5,7 @@ $cin = $_GET['cin'];
 $db = new PDO('mysql:host=localhost;dbname=gestion_cursus', 'root', '');
 
 // Requête pour récupérer l'utilisateur avec le CIN et le mot de passe haché
-$sql = "SELECT * FROM etudiant WHERE cin = :cin";
+$sql = "SELECT * FROM enseignant WHERE cin = :cin";
 $stmt = $db->prepare($sql);
 $stmt->execute(['cin' => $cin]);
 
@@ -86,23 +86,23 @@ $user = $stmt->fetch();
           <ul class="menu-inner py-1">
             <!-- Dashboards -->
             <div class="menu-item">
-              <a href="etudiant.php?cin=<?php echo $_GET['cin']; ?>&nom=<?php echo $user['nom']; ?>"  class="menu-link">
+              <a href="enseignant.php?cin=<?php echo $_GET['cin']; ?>&nom=<?php echo $user['nom']; ?>"  class="menu-link">
                 <i class="menu-icon tf-icons bx bx-home-circle"></i>
                 <div data-i18n="Dashboards">Dashboard</div>
               </a>
               
             </div>
-            <li class="menu-item">
+            <li class="menu-item active">
               <a
-              href="news.php?cin=<?php echo $_GET['cin']; ?>"                
+              href="news_ens.php?cin=<?php echo $_GET['cin']; ?>"                
                 class="menu-link">
                 <i class="menu-icon tf-icons bx bx-spreadsheet"></i>
                 <div data-i18n="Calendar">Actualités</div>
               </a>
             </li>
-            <li class="menu-item active">
+            <li class="menu-item">
               <a
-                href="emploi.php?cin=<?php echo $_GET['cin']; ?>" 
+                href="emploi_ens.php?cin=<?php echo $_GET['cin']; ?>" 
                 class="menu-link">
                 <i class="menu-icon tf-icons bx bx-calendar"></i>
                 <div data-i18n="Calendar">Emploi du temps</div>
@@ -110,7 +110,7 @@ $user = $stmt->fetch();
             </li>
             <li class="menu-item">
               <a
-                href="groupe.php?cin=<?php echo $_GET['cin']; ?>" 
+                href="groupe_ens.php?cin=<?php echo $_GET['cin']; ?>" 
                 class="menu-link">
                 <i class="menu-icon tf-icons bx bx-user"></i>
                 <div data-i18n="Calendar">Liste des groupes</div>
@@ -118,7 +118,7 @@ $user = $stmt->fetch();
             </li>
             <li class="menu-item">
               <a
-                href="cours.php?cin=<?php echo $_GET['cin']; ?>" 
+                href="cours_ens.php?cin=<?php echo $_GET['cin']; ?>" 
                 class="menu-link">
                 <i class="menu-icon tf-icons bx bx-book"></i>
                 <div data-i18n="Calendar">Cours</div>
@@ -126,7 +126,7 @@ $user = $stmt->fetch();
             </li>
             <li class="menu-item">
               <a
-                href="note.php?cin=<?php echo $_GET['cin']; ?>" 
+                href="note_ens.php?cin=<?php echo $_GET['cin']; ?>" 
                 class="menu-link">
                 <i class="menu-icon tf-icons bx bx-file-blank"></i>
                 <div data-i18n="Calendar">Notes</div>
@@ -134,7 +134,7 @@ $user = $stmt->fetch();
             </li>
             <li class="menu-item">
               <a
-                href="exams.php?cin=<?php echo $_GET['cin']; ?>" 
+                href="exams_ens.php?cin=<?php echo $_GET['cin']; ?>" 
                 class="menu-link">
                 <i class="menu-icon tf-icons bx bx-calendar"></i>
                 <div data-i18n="Calendar">Calendrier des examens</div>
@@ -142,20 +142,13 @@ $user = $stmt->fetch();
             </li>
             <li class="menu-item">
               <a
-                href="event.php?cin=<?php echo $_GET['cin']; ?>" 
+                href="event_ens.php?cin=<?php echo $_GET['cin']; ?>" 
                 class="menu-link">
                 <i class="menu-icon tf-icons bx bx-calendar"></i>
                 <div data-i18n="Calendar">Evénements</div>
               </a>
             </li>
-            <li class="menu-item">
-              <a
-                href="reclamation.php?cin=<?php echo $_GET['cin']; ?>" 
-                class="menu-link">
-                <i class="menu-icon tf-icons bx bx-edit"></i>
-                <div data-i18n="Calendar">Réclamations</div>
-              </a>
-            </li>
+            
             <!-- Pages -->
             
             <li class="menu-item">
@@ -208,7 +201,7 @@ $user = $stmt->fetch();
                   </a>
                   <ul class="dropdown-menu dropdown-menu-end">
                     <li>
-                    <a class="dropdown-item" href="profil.php?cin=<?php echo $_GET['cin']; ?>">
+                    <a class="dropdown-item" href="profil_ens.php?cin=<?php echo $_GET['cin']; ?>">
 
                         <div class="d-flex">
                           <div class="flex-shrink-0 me-3">
@@ -220,7 +213,7 @@ $user = $stmt->fetch();
                             <span class="fw-medium d-block">
                                <?php echo $user['nom'] ?>
                             </span>
-                            <small class="text-muted">Etudiant</small>
+                            <small class="text-muted">Enseignant</small>
                           </div>
                         </div>
                       </a>
@@ -256,72 +249,81 @@ $user = $stmt->fetch();
 
           <!-- Content wrapper -->
           <div class="content-wrapper">
-           
             <!-- Content -->
 
             <div class="container-xxl flex-grow-1 container-p-y">
-            <?php
-                                     // Execute the SELECT query
-                                     $sql = "SELECT * FROM emploi ";
-                                     $stmt = $db->prepare($sql);
-                                     $stmt->execute();
-                                     $emploi = $stmt->fetch();
-                                     ?>
-              <h4 class="py-3 mb-4"><span class="text-muted fw-light">Emploi du temps /</span><?php echo $emploi['date']; ?></h4>
-              <!-- Basic Bootstrap Table -->
-              <div class="card">
-                <div class="table-responsive text-nowrap">
-                  <table class="table">
-                    <thead>
-                      <tr>
-                        <th>Jour </th>
-                        <th>Debut </th>
-                        <th>Fin</th>
-                        <th>Matiere</th>
-                        <th>Enseignant</th>
-                        <th>Type</th>
-                        <th>Salle</th>
-                        <th>Régime</th>
-                      </tr>
-                    </thead>
-                    
-                                           <tbody class="table-border-bottom-0">
-                                             
-                                             <?php
-                                     // Execute the SELECT query
-                                     $sql = "SELECT * FROM emploi ";
-                                     $stmt = $db->prepare($sql);
-                                     $stmt->execute();
-                                     // Fetch all news items using a loop
-                                     while ($emploi = $stmt->fetch()) {
-                                     ?> <tr>   <td ><?php echo $emploi['jour']; ?></td> 
-                                               <td>
-                                               <?php echo $emploi['debut']; ?>
-                                               </td>
-                                               <td ><?php echo $emploi['fin']; ?></td>
-                                               <td >
-                                               <?php echo $emploi['matiere']; ?>
-                                               </td>
-                                               <td ><?php echo $emploi['enseignant']; ?></td>
-                                               <td ><?php echo $emploi['type']; ?></td>
-                                               <td ><?php echo $emploi['salle']; ?></td>
-                                               <td ><?php echo $emploi['regime']; ?></td>
-                                               </tr>
-                                               <?php
-                                   }
-                                   ?>
-                                            
-                                             
-                                           </tbody>
-                               </table>
-                           
-                           
-                  </table>
-                </div>
-              </div>
-              <!--/ Basic Bootstrap Table -->
-              
-            </div>
+  <div class="row">
+    <div class="row mb-5">
+
+  <?php
+  // Execute the SELECT query
+  $sql = "SELECT * FROM news ";
+  $stmt = $db->prepare($sql);
+  $stmt->execute();
+
+  // Fetch all news items using a loop
+  while ($news = $stmt->fetch()) {
+  ?>
+
+      <div class="col-md-6 col-lg-4 mb-3">
+        <div class="card">
+          <div class="card-header"><?php echo $news['title']; ?></div>
+          <div class="card-body">
+
+            <p class="card-text text-muted mb-0"><small>Publié le: <?php echo $news['date_publication']; ?></small></p>
+            <br>
+            <div class="demo-inline-spacing">
+                        
+
+                        <!-- Button ModalScrollable -->
+                        <button
+                        
+                          type="button"
+                          class="btn btn-primary"
+                          data-bs-toggle="modal"
+                          data-bs-target="#modalScrollable">
+                         Voir
+                        </button>
+                      </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal fade" id="modalScrollable" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-scrollable" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title" id="modalScrollableTitle"><?php echo $news['title']; ?></h5>
+                              <button
+                                type="button"
+                                class="btn-close"
+                                data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                            <p class="card-text text-muted mb-0"><small>Publié le: <?php echo $news['date_publication']; ?></small></p>
+
+                              <p>
+                              <?php echo $news['description']; ?>
+                              </p>
+                            
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                                Close
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      
+  <?php
+  }
+  ?>
+
+    </div>
+  </div>
+</div>
+
             <!-- / Content -->
 
             <div class="content-backdrop fade"></div>

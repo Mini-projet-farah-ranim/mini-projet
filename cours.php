@@ -100,7 +100,7 @@ $user = $stmt->fetch();
                 <div data-i18n="Calendar">Actualités</div>
               </a>
             </li>
-            <li class="menu-item active">
+            <li class="menu-item ">
               <a
                 href="emploi.php?cin=<?php echo $_GET['cin']; ?>" 
                 class="menu-link">
@@ -111,12 +111,13 @@ $user = $stmt->fetch();
             <li class="menu-item">
               <a
                 href="groupe.php?cin=<?php echo $_GET['cin']; ?>" 
+             
                 class="menu-link">
                 <i class="menu-icon tf-icons bx bx-user"></i>
                 <div data-i18n="Calendar">Liste des groupes</div>
               </a>
             </li>
-            <li class="menu-item">
+            <li class="menu-item active">
               <a
                 href="cours.php?cin=<?php echo $_GET['cin']; ?>" 
                 class="menu-link">
@@ -127,6 +128,7 @@ $user = $stmt->fetch();
             <li class="menu-item">
               <a
                 href="note.php?cin=<?php echo $_GET['cin']; ?>" 
+               
                 class="menu-link">
                 <i class="menu-icon tf-icons bx bx-file-blank"></i>
                 <div data-i18n="Calendar">Notes</div>
@@ -135,6 +137,7 @@ $user = $stmt->fetch();
             <li class="menu-item">
               <a
                 href="exams.php?cin=<?php echo $_GET['cin']; ?>" 
+        
                 class="menu-link">
                 <i class="menu-icon tf-icons bx bx-calendar"></i>
                 <div data-i18n="Calendar">Calendrier des examens</div>
@@ -143,6 +146,7 @@ $user = $stmt->fetch();
             <li class="menu-item">
               <a
                 href="event.php?cin=<?php echo $_GET['cin']; ?>" 
+
                 class="menu-link">
                 <i class="menu-icon tf-icons bx bx-calendar"></i>
                 <div data-i18n="Calendar">Evénements</div>
@@ -161,6 +165,7 @@ $user = $stmt->fetch();
             <li class="menu-item">
               <a
                 href="home.php"
+  
                 class="menu-link">
                 <i class="menu-icon tf-icons bx bx-log-out"></i>
                 <div data-i18n="Calendar">Logout</div>
@@ -260,28 +265,17 @@ $user = $stmt->fetch();
             <!-- Content -->
 
             <div class="container-xxl flex-grow-1 container-p-y">
-            <?php
-                                     // Execute the SELECT query
-                                     $sql = "SELECT * FROM emploi ";
-                                     $stmt = $db->prepare($sql);
-                                     $stmt->execute();
-                                     $emploi = $stmt->fetch();
-                                     ?>
-              <h4 class="py-3 mb-4"><span class="text-muted fw-light">Emploi du temps /</span><?php echo $emploi['date']; ?></h4>
+            
+              <h4 class="py-3 mb-4">Liste des cours</h4>
               <!-- Basic Bootstrap Table -->
               <div class="card">
                 <div class="table-responsive text-nowrap">
                   <table class="table">
                     <thead>
                       <tr>
-                        <th>Jour </th>
-                        <th>Debut </th>
-                        <th>Fin</th>
-                        <th>Matiere</th>
-                        <th>Enseignant</th>
-                        <th>Type</th>
-                        <th>Salle</th>
-                        <th>Régime</th>
+                        <th>Matiere </th>
+                        <th>Date </th>
+                        <th>Support du cours</th>
                       </tr>
                     </thead>
                     
@@ -289,23 +283,16 @@ $user = $stmt->fetch();
                                              
                                              <?php
                                      // Execute the SELECT query
-                                     $sql = "SELECT * FROM emploi ";
+                                     $sql = "SELECT * FROM cours ";
                                      $stmt = $db->prepare($sql);
                                      $stmt->execute();
                                      // Fetch all news items using a loop
-                                     while ($emploi = $stmt->fetch()) {
-                                     ?> <tr>   <td ><?php echo $emploi['jour']; ?></td> 
+                                     while ($cours = $stmt->fetch()) {
+                                     ?> <tr>   <td ><?php echo $cours['matiere']; ?></td> 
                                                <td>
-                                               <?php echo $emploi['debut']; ?>
+                                               <?php echo $cours['date']; ?>
                                                </td>
-                                               <td ><?php echo $emploi['fin']; ?></td>
-                                               <td >
-                                               <?php echo $emploi['matiere']; ?>
-                                               </td>
-                                               <td ><?php echo $emploi['enseignant']; ?></td>
-                                               <td ><?php echo $emploi['type']; ?></td>
-                                               <td ><?php echo $emploi['salle']; ?></td>
-                                               <td ><?php echo $emploi['regime']; ?></td>
+                                               <td ><a href="gfgpdf.php?file=gfgpdf">Télécharger PDF</a></td>
                                                </tr>
                                                <?php
                                    }

@@ -20,10 +20,6 @@ if (!$user) {
   exit();
 }
 else{
-// L'utilisateur est authentifié, démarrer la session et le rediriger
-session_start();
-$_SESSION['user_id'] = $user['id'];
-setcookie('cin', $cin, time() + (86400), "/"); 
 header('Location: etudiant.php?cin=' . $cin. '&nom=' . $user['nom']); 
 }
 ?>

@@ -5,7 +5,7 @@ $cin = $_GET['cin'];
 $db = new PDO('mysql:host=localhost;dbname=gestion_cursus', 'root', '');
 
 // Requête pour récupérer l'utilisateur avec le CIN et le mot de passe haché
-$sql = "SELECT * FROM etudiant WHERE cin = :cin";
+$sql = "SELECT * FROM admin WHERE cin = :cin";
 $stmt = $db->prepare($sql);
 $stmt->execute(['cin' => $cin]);
 
@@ -27,7 +27,7 @@ $user = $stmt->fetch();
       name="viewport"
       content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
-    <title>Etudiant</title>
+    <title>Admin</title>
 
     <meta name="description" content="" />
 
@@ -83,7 +83,7 @@ $user = $stmt->fetch();
           <ul class="menu-inner py-1">
             <!-- Dashboards -->
             <div class="menu-item ">
-              <a href="javascript:void(0);" class="menu-link menu-toggle">
+              <a href="admin.php?cin=<?php echo $_GET['cin']; ?>&nom=<?php echo $user['nom']; ?>" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-home-circle"></i>
                 <div data-i18n="Dashboards">Dashboard</div>
               </a>
@@ -91,7 +91,7 @@ $user = $stmt->fetch();
             </div>
             <li class="menu-item">
               <a
-                href="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/html/vertical-menu-template/app-calendar.html"
+                href="news_admin.php?cin=<?php echo $_GET['cin']; ?>&nom=<?php echo $user['nom']; ?>"
                 target="_blank"
                 class="menu-link active">
                 <i class="menu-icon tf-icons bx bx-spreadsheet"></i>
@@ -99,15 +99,6 @@ $user = $stmt->fetch();
               </a>
             </li>
             
-            <li class="menu-item">
-              <a
-                href="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/html/vertical-menu-template/app-chat.html"
-                target="_blank"
-                class="menu-link">
-                <i class="menu-icon tf-icons bx bx-chat"></i>
-                <div data-i18n="Chat">Chat</div>
-              </a>
-            </li>
             <li class="menu-item">
               <a
                 href="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/html/vertical-menu-template/app-calendar.html"
@@ -119,35 +110,24 @@ $user = $stmt->fetch();
             </li>
             <li class="menu-item">
               <a
-                href="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/html/vertical-menu-template/app-calendar.html"
-                target="_blank"
+                href="groupe_admin.php"
                 class="menu-link">
                 <i class="menu-icon tf-icons bx bx-user"></i>
                 <div data-i18n="Calendar">Liste des groupes</div>
               </a>
             </li>
+            
             <li class="menu-item">
               <a
-                href="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/html/vertical-menu-template/app-calendar.html"
-                target="_blank"
+                href="chefs.php"
                 class="menu-link">
-                <i class="menu-icon tf-icons bx bx-book"></i>
-                <div data-i18n="Calendar">Cours</div>
+                <i class="menu-icon tf-icons bx bx-user"></i>
+                <div data-i18n="Calendar">Chefs de département</div>
               </a>
             </li>
             <li class="menu-item">
               <a
                 href="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/html/vertical-menu-template/app-calendar.html"
-                target="_blank"
-                class="menu-link">
-                <i class="menu-icon tf-icons bx bx-file-blank"></i>
-                <div data-i18n="Calendar">Notes</div>
-              </a>
-            </li>
-            <li class="menu-item">
-              <a
-                href="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/html/vertical-menu-template/app-calendar.html"
-                target="_blank"
                 class="menu-link">
                 <i class="menu-icon tf-icons bx bx-calendar"></i>
                 <div data-i18n="Calendar">Calendrier des examens</div>
@@ -156,49 +136,15 @@ $user = $stmt->fetch();
             <li class="menu-item">
               <a
                 href="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/html/vertical-menu-template/app-calendar.html"
-                target="_blank"
                 class="menu-link">
                 <i class="menu-icon tf-icons bx bx-calendar"></i>
                 <div data-i18n="Calendar">Evénements</div>
               </a>
             </li>
+            
             <li class="menu-item">
               <a
-                href="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/html/vertical-menu-template/app-calendar.html"
-                target="_blank"
-                class="menu-link">
-                <i class="menu-icon tf-icons bx bx-edit"></i>
-                <div data-i18n="Calendar">Réclamations</div>
-              </a>
-            </li>
-            <!-- Pages -->
-            <li class="menu-item">
-              <a href="javascript:void(0);" class="menu-link menu-toggle">
-                <i class="menu-icon tf-icons bx bx-cog"></i>
-                <div data-i18n="Account Settings">Parametres</div>
-              </a>
-              <ul class="menu-sub">
-                <li class="menu-item">
-                  <a href="pages-account-settings-account.html" class="menu-link">
-                    <div data-i18n="Account">Account</div>
-                  </a>
-                </li>
-                <li class="menu-item">
-                  <a href="pages-account-settings-notifications.html" class="menu-link">
-                    <div data-i18n="Notifications">Notifications</div>
-                  </a>
-                </li>
-                <li class="menu-item">
-                  <a href="pages-account-settings-connections.html" class="menu-link">
-                    <div data-i18n="Connections">Connections</div>
-                  </a>
-                </li>
-              </ul>
-            </li>
-            <li class="menu-item">
-              <a
-                href="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/html/vertical-menu-template/app-calendar.html"
-                target="_blank"
+                href="home.php"
                 class="menu-link">
                 <i class="menu-icon tf-icons bx bx-log-out"></i>
                 <div data-i18n="Calendar">Logout</div>

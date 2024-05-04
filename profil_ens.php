@@ -7,7 +7,7 @@ $cin = $_GET['cin'];
 $db = new PDO('mysql:host=localhost;dbname=gestion_cursus', 'root', '');
 
 // Requête pour récupérer l'utilisateur avec le CIN saisi
-$sql = "SELECT * FROM etudiant WHERE cin = :cin";
+$sql = "SELECT * FROM enseignant WHERE cin = :cin";
 $stmt = $db->prepare($sql);
 $stmt->execute(['cin' => $cin]);
 // Vérifier si l'utilisateur existe
@@ -29,7 +29,7 @@ $user = $stmt->fetch();
       name="viewport"
       content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
-    <title>Etudiant</title>
+    <title>Enseignant</title>
 
     <meta name="description" content="" />
 
@@ -85,7 +85,7 @@ $user = $stmt->fetch();
           <ul class="menu-inner py-1">
             <!-- Dashboards -->
             <div class="menu-item">
-              <a href="etudiant.php?cin=<?php echo $_GET['cin']; ?>&nom=<?php echo $user['nom']; ?>"  class="menu-link">
+              <a href="enseignant.php?cin=<?php echo $_GET['cin']; ?>&nom=<?php echo $user['nom']; ?>"  class="menu-link">
                 <i class="menu-icon tf-icons bx bx-home-circle"></i>
                 <div data-i18n="Dashboards">Dashboard</div>
               </a>
@@ -93,7 +93,7 @@ $user = $stmt->fetch();
             </div>
             <li class="menu-item">
               <a
-              href="news.php?cin=<?php echo $_GET['cin']; ?>"                
+              href="news_ens.php?cin=<?php echo $_GET['cin']; ?>"                
                 class="menu-link">
                 <i class="menu-icon tf-icons bx bx-spreadsheet"></i>
                 <div data-i18n="Calendar">Actualités</div>
@@ -101,7 +101,7 @@ $user = $stmt->fetch();
             </li>
             <li class="menu-item">
               <a
-                href="emploi.php?cin=<?php echo $_GET['cin']; ?>" 
+                href="emploi_ens.php?cin=<?php echo $_GET['cin']; ?>" 
                 class="menu-link">
                 <i class="menu-icon tf-icons bx bx-calendar"></i>
                 <div data-i18n="Calendar">Emploi du temps</div>
@@ -109,8 +109,7 @@ $user = $stmt->fetch();
             </li>
             <li class="menu-item">
               <a
-                href="groupe.php?cin=<?php echo $_GET['cin']; ?>" 
-                target="_blank"
+                href="groupe_ens.php?cin=<?php echo $_GET['cin']; ?>" 
                 class="menu-link">
                 <i class="menu-icon tf-icons bx bx-user"></i>
                 <div data-i18n="Calendar">Liste des groupes</div>
@@ -118,8 +117,7 @@ $user = $stmt->fetch();
             </li>
             <li class="menu-item">
               <a
-                href="cours.php?cin=<?php echo $_GET['cin']; ?>" 
-                target="_blank"
+                href="cours_ens.php?cin=<?php echo $_GET['cin']; ?>" 
                 class="menu-link">
                 <i class="menu-icon tf-icons bx bx-book"></i>
                 <div data-i18n="Calendar">Cours</div>
@@ -127,8 +125,7 @@ $user = $stmt->fetch();
             </li>
             <li class="menu-item">
               <a
-                href="note.php?cin=<?php echo $_GET['cin']; ?>" 
-                target="_blank"
+                href="note_ens.php?cin=<?php echo $_GET['cin']; ?>" 
                 class="menu-link">
                 <i class="menu-icon tf-icons bx bx-file-blank"></i>
                 <div data-i18n="Calendar">Notes</div>
@@ -136,8 +133,7 @@ $user = $stmt->fetch();
             </li>
             <li class="menu-item">
               <a
-                href="exams.php?cin=<?php echo $_GET['cin']; ?>" 
-                target="_blank"
+                href="exams_ens.php?cin=<?php echo $_GET['cin']; ?>" 
                 class="menu-link">
                 <i class="menu-icon tf-icons bx bx-calendar"></i>
                 <div data-i18n="Calendar">Calendrier des examens</div>
@@ -145,27 +141,17 @@ $user = $stmt->fetch();
             </li>
             <li class="menu-item">
               <a
-                href="event.php?cin=<?php echo $_GET['cin']; ?>" 
-                target="_blank"
+                href="event_ens.php?cin=<?php echo $_GET['cin']; ?>" 
                 class="menu-link">
                 <i class="menu-icon tf-icons bx bx-calendar"></i>
                 <div data-i18n="Calendar">Evénements</div>
-              </a>
-            </li>
-            <li class="menu-item">
-              <a
-                href="reclamation.php?cin=<?php echo $_GET['cin']; ?>" 
-                class="menu-link">
-                <i class="menu-icon tf-icons bx bx-edit"></i>
-                <div data-i18n="Calendar">Réclamations</div>
               </a>
             </li>
             <!-- Pages -->
             
             <li class="menu-item">
               <a
-                href="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/html/vertical-menu-template/app-calendar.html"
-                target="_blank"
+                href="home.php"
                 class="menu-link">
                 <i class="menu-icon tf-icons bx bx-log-out"></i>
                 <div data-i18n="Calendar">Logout</div>
@@ -192,7 +178,7 @@ $user = $stmt->fetch();
                       <a class="nav-link active" href="javascript:void(0);"><i class="bx bx-user me-1"></i>Profil</a>
                     </li>
                     <li class="nav-item">
-                      <a class="nav-link" href="profilset.php?cin=<?php echo $_GET['cin']; ?>"
+                      <a class="nav-link" href="profilset_ens.php?cin=<?php echo $_GET['cin']; ?>"
                         ><i class="bx bx-wrench me-1"></i> Paramètres</a
                       >
                     </li>
@@ -221,7 +207,7 @@ $user = $stmt->fetch();
 
                         <div class="button-wrapper">
                           <h1><?php echo $user['nom'] ?> <?php echo $user['prenom'] ?></h1>
-                          <p class="text-muted mb-0">Etudiant</p>
+                          <p class="text-muted mb-0">Enseignant</p>
                         </div>
                       </div>
                     </div>
@@ -243,20 +229,12 @@ $user = $stmt->fetch();
                           </div>
                           
                           <div class="mb-3 col-md-6">
-                            <label class="form-label" for="phoneNumber">Numero de téléphone</label>
+                            <label class="form-label" for="phoneNumber">Titre</label>
                             <div class="input-group input-group-merge">
-                              <span class="input-group-text">TN (+216)</span>
-                              <input class="form-control" type="text" name="lastName" id="lastName" value="<?php echo $user['telephone'] ?>" readonly />
+                              <input class="form-control" type="text" name="lastName" id="lastName" value="<?php echo $user['titre_ens'] ?>" readonly />
                             </div>
                           </div>
-                          <div class="mb-3 col-md-6">
-                            <label for="address" class="form-label">Groupe</label>
-                            <input class="form-control" type="text" name="lastName" id="lastName" value="<?php echo $user['groupe'] ?>" readonly />
-                          </div>
-                          <div class="mb-3 col-md-6">
-                            <label for="state" class="form-label">Filière</label>
-                            <input class="form-control" type="text" name="lastName" id="lastName" value="<?php echo $user['filiere'] ?>" readonly />
-                          </div>
+                          
                           
                         </div>
                         

@@ -5,7 +5,7 @@ $cin = $_GET['cin'];
 $db = new PDO('mysql:host=localhost;dbname=gestion_cursus', 'root', '');
 
 // Requête pour récupérer l'utilisateur avec le CIN et le mot de passe haché
-$sql = "SELECT * FROM etudiant WHERE cin = :cin";
+$sql = "SELECT * FROM enseignant WHERE cin = :cin";
 $stmt = $db->prepare($sql);
 $stmt->execute(['cin' => $cin]);
 
@@ -30,7 +30,7 @@ $user = $stmt->fetch();
       name="viewport"
       content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
-    <title>Etudiant</title>
+    <title>Enseignant</title>
 
     <meta name="description" content="" />
 
@@ -86,7 +86,7 @@ $user = $stmt->fetch();
           <ul class="menu-inner py-1">
             <!-- Dashboards -->
             <div class="menu-item">
-              <a href="etudiant.php?cin=<?php echo $_GET['cin']; ?>&nom=<?php echo $user['nom']; ?>"  class="menu-link">
+              <a href="enseignant.php?cin=<?php echo $_GET['cin']; ?>&nom=<?php echo $user['nom']; ?>"  class="menu-link">
                 <i class="menu-icon tf-icons bx bx-home-circle"></i>
                 <div data-i18n="Dashboards">Dashboard</div>
               </a>
@@ -94,13 +94,13 @@ $user = $stmt->fetch();
             </div>
             <li class="menu-item">
               <a
-              href="news.php?cin=<?php echo $_GET['cin']; ?>"                
+              href="news_ens.php?cin=<?php echo $_GET['cin']; ?>"                
                 class="menu-link">
                 <i class="menu-icon tf-icons bx bx-spreadsheet"></i>
                 <div data-i18n="Calendar">Actualités</div>
               </a>
             </li>
-            <li class="menu-item active">
+            <li class="menu-item">
               <a
                 href="emploi.php?cin=<?php echo $_GET['cin']; ?>" 
                 class="menu-link">
@@ -111,14 +111,15 @@ $user = $stmt->fetch();
             <li class="menu-item">
               <a
                 href="groupe.php?cin=<?php echo $_GET['cin']; ?>" 
+             
                 class="menu-link">
                 <i class="menu-icon tf-icons bx bx-user"></i>
                 <div data-i18n="Calendar">Liste des groupes</div>
               </a>
             </li>
-            <li class="menu-item">
+            <li class="menu-item active">
               <a
-                href="cours.php?cin=<?php echo $_GET['cin']; ?>" 
+                href="cours_add.php?cin=<?php echo $_GET['cin']; ?>" 
                 class="menu-link">
                 <i class="menu-icon tf-icons bx bx-book"></i>
                 <div data-i18n="Calendar">Cours</div>
@@ -126,7 +127,8 @@ $user = $stmt->fetch();
             </li>
             <li class="menu-item">
               <a
-                href="note.php?cin=<?php echo $_GET['cin']; ?>" 
+                href="note_ens.php?cin=<?php echo $_GET['cin']; ?>" 
+               
                 class="menu-link">
                 <i class="menu-icon tf-icons bx bx-file-blank"></i>
                 <div data-i18n="Calendar">Notes</div>
@@ -135,6 +137,7 @@ $user = $stmt->fetch();
             <li class="menu-item">
               <a
                 href="exams.php?cin=<?php echo $_GET['cin']; ?>" 
+        
                 class="menu-link">
                 <i class="menu-icon tf-icons bx bx-calendar"></i>
                 <div data-i18n="Calendar">Calendrier des examens</div>
@@ -143,24 +146,18 @@ $user = $stmt->fetch();
             <li class="menu-item">
               <a
                 href="event.php?cin=<?php echo $_GET['cin']; ?>" 
+
                 class="menu-link">
                 <i class="menu-icon tf-icons bx bx-calendar"></i>
                 <div data-i18n="Calendar">Evénements</div>
-              </a>
-            </li>
-            <li class="menu-item">
-              <a
-                href="reclamation.php?cin=<?php echo $_GET['cin']; ?>" 
-                class="menu-link">
-                <i class="menu-icon tf-icons bx bx-edit"></i>
-                <div data-i18n="Calendar">Réclamations</div>
               </a>
             </li>
             <!-- Pages -->
             
             <li class="menu-item">
               <a
-                href="home.php"
+                href="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/html/vertical-menu-template/app-calendar.html"
+  
                 class="menu-link">
                 <i class="menu-icon tf-icons bx bx-log-out"></i>
                 <div data-i18n="Calendar">Logout</div>
@@ -208,7 +205,7 @@ $user = $stmt->fetch();
                   </a>
                   <ul class="dropdown-menu dropdown-menu-end">
                     <li>
-                    <a class="dropdown-item" href="profil.php?cin=<?php echo $_GET['cin']; ?>">
+                    <a class="dropdown-item" href="profil_ens.php?cin=<?php echo $_GET['cin']; ?>">
 
                         <div class="d-flex">
                           <div class="flex-shrink-0 me-3">
@@ -220,7 +217,7 @@ $user = $stmt->fetch();
                             <span class="fw-medium d-block">
                                <?php echo $user['nom'] ?>
                             </span>
-                            <small class="text-muted">Etudiant</small>
+                            <small class="text-muted">Enseignant</small>
                           </div>
                         </div>
                       </a>
@@ -260,64 +257,73 @@ $user = $stmt->fetch();
             <!-- Content -->
 
             <div class="container-xxl flex-grow-1 container-p-y">
-            <?php
-                                     // Execute the SELECT query
-                                     $sql = "SELECT * FROM emploi ";
-                                     $stmt = $db->prepare($sql);
-                                     $stmt->execute();
-                                     $emploi = $stmt->fetch();
-                                     ?>
-              <h4 class="py-3 mb-4"><span class="text-muted fw-light">Emploi du temps /</span><?php echo $emploi['date']; ?></h4>
+            <div class="row">
+    <div class="row mb-5">
+
+  <?php
+  // Execute the SELECT query
+  $sql = "SELECT * FROM cours ";
+  $stmt = $db->prepare($sql);
+  $stmt->execute();
+
+  // Fetch all news items using a loop
+  while ($cours = $stmt->fetch()) {
+  ?>
+
+      <div class="col-md-6 col-lg-4 mb-3">
+        <div class="card">
+          <div class="card-header"><?php echo $cours['matiere']; ?></div>
+          <div class="card-body">
+
+            <p class="card-text text-muted mb-0"><small>Publié le: <?php echo $cours['date']; ?></small></p>
+            <br>
+            <div class="demo-inline-spacing">
+                        
+
+                        <!-- Button ModalScrollable -->
+                        
+                          <a href="gfgpdf.php?file=gfgpdf" >Télécharger PDF</a>
+                      </div>
+                      <button type="button" class="btn btn-outline-danger" style="margin-left:60%; " >
+                         <a href="coursdelete.php?cin=<?php echo $user['cin']; ?>&id=<?php echo $cours['id']; ?>" style="color: red;">Supprimer</a>
+                      </button>
+          </div>
+        </div>
+      </div>
+      
+                      
+  <?php
+  }
+  ?>
+
+    </div>
+  </div>
+              <h4 class="py-3 mb-4">Ajouter des cours</h4>
               <!-- Basic Bootstrap Table -->
-              <div class="card">
-                <div class="table-responsive text-nowrap">
-                  <table class="table">
-                    <thead>
-                      <tr>
-                        <th>Jour </th>
-                        <th>Debut </th>
-                        <th>Fin</th>
-                        <th>Matiere</th>
-                        <th>Enseignant</th>
-                        <th>Type</th>
-                        <th>Salle</th>
-                        <th>Régime</th>
-                      </tr>
-                    </thead>
-                    
-                                           <tbody class="table-border-bottom-0">
-                                             
-                                             <?php
-                                     // Execute the SELECT query
-                                     $sql = "SELECT * FROM emploi ";
-                                     $stmt = $db->prepare($sql);
-                                     $stmt->execute();
-                                     // Fetch all news items using a loop
-                                     while ($emploi = $stmt->fetch()) {
-                                     ?> <tr>   <td ><?php echo $emploi['jour']; ?></td> 
-                                               <td>
-                                               <?php echo $emploi['debut']; ?>
-                                               </td>
-                                               <td ><?php echo $emploi['fin']; ?></td>
-                                               <td >
-                                               <?php echo $emploi['matiere']; ?>
-                                               </td>
-                                               <td ><?php echo $emploi['enseignant']; ?></td>
-                                               <td ><?php echo $emploi['type']; ?></td>
-                                               <td ><?php echo $emploi['salle']; ?></td>
-                                               <td ><?php echo $emploi['regime']; ?></td>
-                                               </tr>
-                                               <?php
-                                   }
-                                   ?>
-                                            
-                                             
-                                           </tbody>
-                               </table>
-                           
-                           
-                  </table>
-                </div>
+              <div class="card-body">
+                <form action="coursadd.php" method="post" enctype="multipart/form-data">
+                  <div class="row mb-3">
+                    <div class="col-sm-6">
+                      <label for="cin" class="form-label">Matiere</label>
+                      <input type="text" class="form-control" name="matiere" id="matiere"/>
+                    </div>
+                    <div class="col-sm-6">
+                      <label for="objet" class="form-label">Fichier PDF</label>
+                      <input type="file" class="form-control" name="pdf" id="pdf" />
+                    </div>
+                  </div>
+                  <div class="row mb-3">
+                    <div class="col-sm-6">
+                      <input type="text" class="form-control" name="cin" id="basic-default-name" value="<?php echo isset($_GET['cin']) ? $_GET['cin'] : ''; ?>" hidden/>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-12 ">
+                      <button type="submit" class="btn btn-primary">Ajouter</button>
+                    </div>
+                  </div>
+                </form>
+
               </div>
               <!--/ Basic Bootstrap Table -->
               

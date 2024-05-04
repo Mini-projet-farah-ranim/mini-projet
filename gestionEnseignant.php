@@ -5,16 +5,13 @@ $cin = $_GET['cin'];
 $db = new PDO('mysql:host=localhost;dbname=gestion_cursus', 'root', '');
 
 // Requête pour récupérer l'utilisateur avec le CIN et le mot de passe haché
-$sql = "SELECT * FROM etudiant WHERE cin = :cin";
+$sql = "SELECT * FROM chef WHERE cin = :cin";
 $stmt = $db->prepare($sql);
 $stmt->execute(['cin' => $cin]);
 
 // Vérifier si l'utilisateur existe
 $user = $stmt->fetch();
-
-
 ?>
-
 <!DOCTYPE html>
 
 <html
@@ -30,7 +27,7 @@ $user = $stmt->fetch();
       name="viewport"
       content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
-    <title>Etudiant</title>
+    <title> Chef département</title>
 
     <meta name="description" content="" />
 
@@ -38,6 +35,7 @@ $user = $stmt->fetch();
     <link rel="icon" type="image/x-icon" href="logo.png" />
 
     <!-- Fonts -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css">
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -86,7 +84,7 @@ $user = $stmt->fetch();
           <ul class="menu-inner py-1">
             <!-- Dashboards -->
             <div class="menu-item">
-              <a href="etudiant.php?cin=<?php echo $_GET['cin']; ?>&nom=<?php echo $user['nom']; ?>"  class="menu-link">
+              <a href="chef.php?cin=<?php echo $_GET['cin']; ?>&nom=<?php echo $user['nom']; ?>"  class="menu-link">
                 <i class="menu-icon tf-icons bx bx-home-circle"></i>
                 <div data-i18n="Dashboards">Dashboard</div>
               </a>
@@ -100,7 +98,7 @@ $user = $stmt->fetch();
                 <div data-i18n="Calendar">Actualités</div>
               </a>
             </li>
-            <li class="menu-item active">
+            <li class="menu-item ">
               <a
                 href="emploi.php?cin=<?php echo $_GET['cin']; ?>" 
                 class="menu-link">
@@ -118,18 +116,18 @@ $user = $stmt->fetch();
             </li>
             <li class="menu-item">
               <a
-                href="cours.php?cin=<?php echo $_GET['cin']; ?>" 
+                href="programme.php?cin=<?php echo $_GET['cin']; ?>" 
                 class="menu-link">
                 <i class="menu-icon tf-icons bx bx-book"></i>
-                <div data-i18n="Calendar">Cours</div>
+                <div data-i18n="Calendar">Programmes d'études</div>
               </a>
             </li>
-            <li class="menu-item">
+            <li class="menu-item active">
               <a
-                href="note.php?cin=<?php echo $_GET['cin']; ?>" 
+                href="gestionEnseignant.php?cin=<?php echo $_GET['cin']; ?>" 
                 class="menu-link">
                 <i class="menu-icon tf-icons bx bx-file-blank"></i>
-                <div data-i18n="Calendar">Notes</div>
+                <div data-i18n="Calendar">Gestion enseignants</div>
               </a>
             </li>
             <li class="menu-item">
@@ -143,17 +141,10 @@ $user = $stmt->fetch();
             <li class="menu-item">
               <a
                 href="event.php?cin=<?php echo $_GET['cin']; ?>" 
+                target="_blank"
                 class="menu-link">
                 <i class="menu-icon tf-icons bx bx-calendar"></i>
                 <div data-i18n="Calendar">Evénements</div>
-              </a>
-            </li>
-            <li class="menu-item">
-              <a
-                href="reclamation.php?cin=<?php echo $_GET['cin']; ?>" 
-                class="menu-link">
-                <i class="menu-icon tf-icons bx bx-edit"></i>
-                <div data-i18n="Calendar">Réclamations</div>
               </a>
             </li>
             <!-- Pages -->
@@ -220,7 +211,7 @@ $user = $stmt->fetch();
                             <span class="fw-medium d-block">
                                <?php echo $user['nom'] ?>
                             </span>
-                            <small class="text-muted">Etudiant</small>
+                            <small class="text-muted">Enseignant</small>
                           </div>
                         </div>
                       </a>
@@ -256,73 +247,67 @@ $user = $stmt->fetch();
 
           <!-- Content wrapper -->
           <div class="content-wrapper">
-           
             <!-- Content -->
-
-            <div class="container-xxl flex-grow-1 container-p-y">
-            <?php
-                                     // Execute the SELECT query
-                                     $sql = "SELECT * FROM emploi ";
-                                     $stmt = $db->prepare($sql);
-                                     $stmt->execute();
-                                     $emploi = $stmt->fetch();
-                                     ?>
-              <h4 class="py-3 mb-4"><span class="text-muted fw-light">Emploi du temps /</span><?php echo $emploi['date']; ?></h4>
-              <!-- Basic Bootstrap Table -->
-              <div class="card">
-                <div class="table-responsive text-nowrap">
-                  <table class="table">
-                    <thead>
-                      <tr>
-                        <th>Jour </th>
-                        <th>Debut </th>
-                        <th>Fin</th>
-                        <th>Matiere</th>
-                        <th>Enseignant</th>
-                        <th>Type</th>
-                        <th>Salle</th>
-                        <th>Régime</th>
-                      </tr>
-                    </thead>
-                    
-                                           <tbody class="table-border-bottom-0">
-                                             
-                                             <?php
-                                     // Execute the SELECT query
-                                     $sql = "SELECT * FROM emploi ";
-                                     $stmt = $db->prepare($sql);
-                                     $stmt->execute();
-                                     // Fetch all news items using a loop
-                                     while ($emploi = $stmt->fetch()) {
-                                     ?> <tr>   <td ><?php echo $emploi['jour']; ?></td> 
-                                               <td>
-                                               <?php echo $emploi['debut']; ?>
-                                               </td>
-                                               <td ><?php echo $emploi['fin']; ?></td>
-                                               <td >
-                                               <?php echo $emploi['matiere']; ?>
-                                               </td>
-                                               <td ><?php echo $emploi['enseignant']; ?></td>
-                                               <td ><?php echo $emploi['type']; ?></td>
-                                               <td ><?php echo $emploi['salle']; ?></td>
-                                               <td ><?php echo $emploi['regime']; ?></td>
-                                               </tr>
-                                               <?php
-                                   }
-                                   ?>
-                                            
-                                             
-                                           </tbody>
-                               </table>
-                           
-                           
-                  </table>
+<div class="container-xxl flex-grow-1 container-p-y">
+    <div class="row">
+        <!-- Basic Layout -->
+        <div class="col-xxl">
+            <div class="card mb-4">
+                <div class="card-header d-flex align-items-center justify-content-between">
+                    <h5 class="mb-0">Affecter enseignant aux programmes d'études</h5>
                 </div>
-              </div>
-              <!--/ Basic Bootstrap Table -->
-              
+                <div class="card-body">
+                    <form action="affecterEnseignant.php" method="post">
+                        <div class="mb-3">
+                            <label for="filiere" class="form-label">Filière :</label>
+                            <select name="filiere" id="filiere" class="form-select">
+                                <?php
+                                // Fetch filieres from database
+                                $sql = "SELECT code FROM filiere";
+                                $stmt = $db->query($sql);
+                                while ($filiere = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                                    echo "<option value='" . $filiere['code'] . "'>" . $filiere['code'] . "</option>";
+                                }
+                                ?>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="cours" class="form-label">Cours :</label>
+                            <select name="cours" id="cours" class="form-select">
+                                <?php
+                                // Fetch cours from database
+                                $sql = "SELECT nom FROM cours";
+                                $stmt = $db->query($sql);
+                                while ($cours = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                                    echo "<option value='" . $cours['nom'] . "'>" . $cours['nom'] . "</option>";
+                                }
+                                ?>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="enseignant" class="form-label">Enseignant :</label>
+                            <select name="enseignant" id="enseignant" class="form-select">
+                                <?php
+                                // Fetch enseignants from database
+                                $sql = "SELECT nom FROM enseignant";
+                                $stmt = $db->query($sql);
+                                while ($enseignant = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                                    echo "<option value='" . $enseignant['nom'] . "'>" . $enseignant['nom'] . "</option>";
+                                }
+                                ?>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Affecter enseignant</button>
+                        
+
+                    </form>
+                </div>
             </div>
-            <!-- / Content -->
+        </div>
+    </div>
+</div>
+<!-- / Content -->
+
 
             <div class="content-backdrop fade"></div>
           </div>

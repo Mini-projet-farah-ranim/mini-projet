@@ -289,8 +289,7 @@ body {
             </li>
             <li class="menu-item">
               <a
-                href="groupe.php?cin=<?php ////echo $_GET['cin']; ?>" 
-                target="_blank"
+                href="groupe.php?cin=<?php echo $_GET['cin']; ?>" 
                 class="menu-link">
                 <i class="menu-icon tf-icons bx bx-user"></i>
                 <div data-i18n="Calendar">Liste des groupes</div>
@@ -298,8 +297,7 @@ body {
             </li>
             <li class="menu-item">
               <a
-                href="cours.php?cin=<?php ////echo $_GET['cin']; ?>" 
-                target="_blank"
+                href="cours.php?cin=<?php echo $_GET['cin']; ?>" 
                 class="menu-link">
                 <i class="menu-icon tf-icons bx bx-book"></i>
                 <div data-i18n="Calendar">Cours</div>
@@ -307,8 +305,7 @@ body {
             </li>
             <li class="menu-item">
               <a
-                href="note.php?cin=<?php ////echo $_GET['cin']; ?>" 
-                target="_blank"
+                href="note.php?cin=<?php echo $_GET['cin']; ?>" 
                 class="menu-link">
                 <i class="menu-icon tf-icons bx bx-file-blank"></i>
                 <div data-i18n="Calendar">Notes</div>
@@ -316,8 +313,7 @@ body {
             </li>
             <li class="menu-item">
               <a
-                href="exams.php?cin=<?php //echo $_GET['cin']; ?>" 
-                target="_blank"
+                href="exams.php?cin=<?php echo $_GET['cin']; ?>" 
                 class="menu-link">
                 <i class="menu-icon tf-icons bx bx-calendar"></i>
                 <div data-i18n="Calendar">Calendrier des examens</div>
@@ -325,8 +321,7 @@ body {
             </li>
             <li class="menu-item">
               <a
-                href="event.php?cin=<?php //echo $_GET['cin']; ?>" 
-                target="_blank"
+                href="event.php?cin=<?php echo $_GET['cin']; ?>" 
                 class="menu-link">
                 <i class="menu-icon tf-icons bx bx-calendar"></i>
                 <div data-i18n="Calendar">Evénements</div>
@@ -344,8 +339,7 @@ body {
             
             <li class="menu-item">
               <a
-                href="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/html/vertical-menu-template/app-calendar.html"
-                target="_blank"
+                href="home.php"
                 class="menu-link">
                 <i class="menu-icon tf-icons bx bx-log-out"></i>
                 <div data-i18n="Calendar">Logout</div>

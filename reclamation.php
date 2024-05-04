@@ -108,7 +108,6 @@ $user = $stmt->fetch();
             <li class="menu-item">
               <a
                 href="groupe.php?cin=<?php echo $_GET['cin']; ?>" 
-                target="_blank"
                 class="menu-link">
                 <i class="menu-icon tf-icons bx bx-user"></i>
                 <div data-i18n="Calendar">Liste des groupes</div>
@@ -117,7 +116,6 @@ $user = $stmt->fetch();
             <li class="menu-item">
               <a
                 href="cours.php?cin=<?php echo $_GET['cin']; ?>" 
-                target="_blank"
                 class="menu-link">
                 <i class="menu-icon tf-icons bx bx-book"></i>
                 <div data-i18n="Calendar">Cours</div>
@@ -126,7 +124,6 @@ $user = $stmt->fetch();
             <li class="menu-item">
               <a
                 href="note.php?cin=<?php echo $_GET['cin']; ?>" 
-                target="_blank"
                 class="menu-link">
                 <i class="menu-icon tf-icons bx bx-file-blank"></i>
                 <div data-i18n="Calendar">Notes</div>
@@ -135,7 +132,6 @@ $user = $stmt->fetch();
             <li class="menu-item">
               <a
                 href="exams.php?cin=<?php echo $_GET['cin']; ?>" 
-                target="_blank"
                 class="menu-link">
                 <i class="menu-icon tf-icons bx bx-calendar"></i>
                 <div data-i18n="Calendar">Calendrier des examens</div>
@@ -144,7 +140,6 @@ $user = $stmt->fetch();
             <li class="menu-item">
               <a
                 href="event.php?cin=<?php echo $_GET['cin']; ?>" 
-                target="_blank"
                 class="menu-link">
                 <i class="menu-icon tf-icons bx bx-calendar"></i>
                 <div data-i18n="Calendar">Evénements</div>
@@ -162,7 +157,7 @@ $user = $stmt->fetch();
             
             <li class="menu-item">
               <a
-                href="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/html/vertical-menu-template/app-calendar.html"
+                href="home.php"
                 target="_blank"
                 class="menu-link">
                 <i class="menu-icon tf-icons bx bx-log-out"></i>

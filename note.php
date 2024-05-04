@@ -11,10 +11,7 @@ $stmt->execute(['cin' => $cin]);
 
 // Vérifier si l'utilisateur existe
 $user = $stmt->fetch();
-
-
 ?>
-
 <!DOCTYPE html>
 
 <html
@@ -30,7 +27,7 @@ $user = $stmt->fetch();
       name="viewport"
       content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
-    <title>Etudiant</title>
+    <title> Etudiant</title>
 
     <meta name="description" content="" />
 
@@ -38,6 +35,7 @@ $user = $stmt->fetch();
     <link rel="icon" type="image/x-icon" href="logo.png" />
 
     <!-- Fonts -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css">
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -100,7 +98,7 @@ $user = $stmt->fetch();
                 <div data-i18n="Calendar">Actualités</div>
               </a>
             </li>
-            <li class="menu-item active">
+            <li class="menu-item ">
               <a
                 href="emploi.php?cin=<?php echo $_GET['cin']; ?>" 
                 class="menu-link">
@@ -124,7 +122,7 @@ $user = $stmt->fetch();
                 <div data-i18n="Calendar">Cours</div>
               </a>
             </li>
-            <li class="menu-item">
+            <li class="menu-item active">
               <a
                 href="note.php?cin=<?php echo $_GET['cin']; ?>" 
                 class="menu-link">
@@ -143,11 +141,13 @@ $user = $stmt->fetch();
             <li class="menu-item">
               <a
                 href="event.php?cin=<?php echo $_GET['cin']; ?>" 
+                target="_blank"
                 class="menu-link">
                 <i class="menu-icon tf-icons bx bx-calendar"></i>
                 <div data-i18n="Calendar">Evénements</div>
               </a>
             </li>
+            <!-- Pages -->
             <li class="menu-item">
               <a
                 href="reclamation.php?cin=<?php echo $_GET['cin']; ?>" 
@@ -156,8 +156,6 @@ $user = $stmt->fetch();
                 <div data-i18n="Calendar">Réclamations</div>
               </a>
             </li>
-            <!-- Pages -->
-            
             <li class="menu-item">
               <a
                 href="home.php"
@@ -220,7 +218,7 @@ $user = $stmt->fetch();
                             <span class="fw-medium d-block">
                                <?php echo $user['nom'] ?>
                             </span>
-                            <small class="text-muted">Etudiant</small>
+                            <small class="text-muted">Enseignant</small>
                           </div>
                         </div>
                       </a>
@@ -256,59 +254,61 @@ $user = $stmt->fetch();
 
           <!-- Content wrapper -->
           <div class="content-wrapper">
-           
             <!-- Content -->
 
             <div class="container-xxl flex-grow-1 container-p-y">
-            <?php
-                                     // Execute the SELECT query
-                                     $sql = "SELECT * FROM emploi ";
-                                     $stmt = $db->prepare($sql);
-                                     $stmt->execute();
-                                     $emploi = $stmt->fetch();
-                                     ?>
-              <h4 class="py-3 mb-4"><span class="text-muted fw-light">Emploi du temps /</span><?php echo $emploi['date']; ?></h4>
-              <!-- Basic Bootstrap Table -->
-              <div class="card">
-                <div class="table-responsive text-nowrap">
-                  <table class="table">
-                    <thead>
-                      <tr>
-                        <th>Jour </th>
-                        <th>Debut </th>
-                        <th>Fin</th>
-                        <th>Matiere</th>
-                        <th>Enseignant</th>
-                        <th>Type</th>
-                        <th>Salle</th>
-                        <th>Régime</th>
-                      </tr>
-                    </thead>
+              
+                <div class="row">
+                <!-- Basic Layout -->
+                    <div class="col-xxl">
+                          <div class="card mb-4">
+                                <div class="card-header d-flex align-items-center justify-content-between">
+                                  <h5 class="mb-0">Liste des notes</h5>
+                                </div>
+                                
+                                <div class="card-body">
+                                
+                                <div class="table-responsive text-nowrap">
+                                <table class="table">
+                                          <thead>
+                                            <tr>
+                                              
+                                              <th>Numero d'inscription </th>
+                                              <th style="width:50%;">Matiere</th>
+                                              <th>Note</th>
+                                            </tr>
+                                          </thead>
                     
                                            <tbody class="table-border-bottom-0">
                                              
                                              <?php
-                                     // Execute the SELECT query
-                                     $sql = "SELECT * FROM emploi ";
-                                     $stmt = $db->prepare($sql);
-                                     $stmt->execute();
-                                     // Fetch all news items using a loop
-                                     while ($emploi = $stmt->fetch()) {
-                                     ?> <tr>   <td ><?php echo $emploi['jour']; ?></td> 
+                                      $sql = "SELECT * FROM etudiant WHERE cin = :cin";
+                                      $stmt = $db->prepare($sql);
+                                      $stmt->execute(['cin' => $cin]);
+                                      
+                                      // Check if the student exists
+                                      $user = $stmt->fetch();
+                                      
+                                      if ($user) { // Check if $user is not empty (meaning the student exists)
+                                      
+                                        // Fetch notes for the found student
+                                        $sql = "SELECT * FROM note WHERE inscription = :inscription";
+                                        $stmt = $db->prepare($sql);
+                                        $stmt->execute(['inscription' => $user['inscription']]);
+                                      
+                                        // Process or display notes (code goes here)
+                                      
+                                        while ($note = $stmt->fetch()) {
+                                     ?> <tr>   
+                                               <td ><?php echo $note['inscription']; ?></td>
                                                <td>
-                                               <?php echo $emploi['debut']; ?>
+                                               <?php echo $note['matiere']; ?>
                                                </td>
-                                               <td ><?php echo $emploi['fin']; ?></td>
-                                               <td >
-                                               <?php echo $emploi['matiere']; ?>
-                                               </td>
-                                               <td ><?php echo $emploi['enseignant']; ?></td>
-                                               <td ><?php echo $emploi['type']; ?></td>
-                                               <td ><?php echo $emploi['salle']; ?></td>
-                                               <td ><?php echo $emploi['regime']; ?></td>
+                                               <td ><?php echo $note['note']; ?></td>
+                                               
                                                </tr>
                                                <?php
-                                   }
+                                   } }
                                    ?>
                                             
                                              
@@ -318,10 +318,13 @@ $user = $stmt->fetch();
                            
                   </table>
                 </div>
-              </div>
-              <!--/ Basic Bootstrap Table -->
-              
+                                </div>
+                          </div>
+                    </div>
+                </div>
+                
             </div>
+        </div>
             <!-- / Content -->
 
             <div class="content-backdrop fade"></div>

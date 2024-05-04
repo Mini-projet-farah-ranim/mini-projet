@@ -100,7 +100,7 @@ $user = $stmt->fetch();
                 <div data-i18n="Calendar">Actualités</div>
               </a>
             </li>
-            <li class="menu-item active">
+            <li class="menu-item ">
               <a
                 href="emploi.php?cin=<?php echo $_GET['cin']; ?>" 
                 class="menu-link">
@@ -108,7 +108,7 @@ $user = $stmt->fetch();
                 <div data-i18n="Calendar">Emploi du temps</div>
               </a>
             </li>
-            <li class="menu-item">
+            <li class="menu-item active">
               <a
                 href="groupe.php?cin=<?php echo $_GET['cin']; ?>" 
                 class="menu-link">
@@ -160,7 +160,7 @@ $user = $stmt->fetch();
             
             <li class="menu-item">
               <a
-                href="home.php"
+                href="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/html/vertical-menu-template/app-calendar.html"
                 class="menu-link">
                 <i class="menu-icon tf-icons bx bx-log-out"></i>
                 <div data-i18n="Calendar">Logout</div>
@@ -260,28 +260,19 @@ $user = $stmt->fetch();
             <!-- Content -->
 
             <div class="container-xxl flex-grow-1 container-p-y">
-            <?php
-                                     // Execute the SELECT query
-                                     $sql = "SELECT * FROM emploi ";
-                                     $stmt = $db->prepare($sql);
-                                     $stmt->execute();
-                                     $emploi = $stmt->fetch();
-                                     ?>
-              <h4 class="py-3 mb-4"><span class="text-muted fw-light">Emploi du temps /</span><?php echo $emploi['date']; ?></h4>
+           
+              <h4 class="py-3 mb-4">Liste des groupes </h4>
               <!-- Basic Bootstrap Table -->
               <div class="card">
                 <div class="table-responsive text-nowrap">
                   <table class="table">
                     <thead>
                       <tr>
-                        <th>Jour </th>
-                        <th>Debut </th>
-                        <th>Fin</th>
-                        <th>Matiere</th>
-                        <th>Enseignant</th>
-                        <th>Type</th>
-                        <th>Salle</th>
-                        <th>Régime</th>
+                        <th></th>
+                        <th>Numero d'inscription </th>
+                        <th>Nom </th>
+                        <th>Prenom</th>
+                        
                       </tr>
                     </thead>
                     
@@ -289,23 +280,18 @@ $user = $stmt->fetch();
                                              
                                              <?php
                                      // Execute the SELECT query
-                                     $sql = "SELECT * FROM emploi ";
+                                     $sql = "SELECT * FROM groupe ";
                                      $stmt = $db->prepare($sql);
                                      $stmt->execute();
                                      // Fetch all news items using a loop
-                                     while ($emploi = $stmt->fetch()) {
-                                     ?> <tr>   <td ><?php echo $emploi['jour']; ?></td> 
+                                     while ($groupe = $stmt->fetch()) {
+                                     ?> <tr>   <td ><?php echo $groupe['id']; ?></td> 
+                                               <td ><?php echo $groupe['inscription']; ?></td>
                                                <td>
-                                               <?php echo $emploi['debut']; ?>
+                                               <?php echo $groupe['nom']; ?>
                                                </td>
-                                               <td ><?php echo $emploi['fin']; ?></td>
-                                               <td >
-                                               <?php echo $emploi['matiere']; ?>
-                                               </td>
-                                               <td ><?php echo $emploi['enseignant']; ?></td>
-                                               <td ><?php echo $emploi['type']; ?></td>
-                                               <td ><?php echo $emploi['salle']; ?></td>
-                                               <td ><?php echo $emploi['regime']; ?></td>
+                                               <td ><?php echo $groupe['prenom']; ?></td>
+                                               
                                                </tr>
                                                <?php
                                    }
